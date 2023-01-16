@@ -39,7 +39,6 @@ const addContact = async (body) => {
   const contacts = await listContacts();
   contacts.push(newUser);
   await writeContacts(contacts);
-  const newContacts = await listContacts();
 
   return newUser;
 };
