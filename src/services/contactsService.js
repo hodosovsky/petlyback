@@ -37,14 +37,12 @@ const changeContactById = async (contactId, body) => {
   }
 
   await Contact.findByIdAndUpdate(contactId, body);
-
-  const updatedContact = await Contact.findById(contactId);
 };
 
 const patchContactById = async (contactId, body) => {
   const contact = await Contact.findById(contactId);
   if (!contact) {
-    return res.status(404).json({ message: "Not found" });
+    throw new WrongParametersError(`Contact with id '${contactId}' not found`);
   }
 
   await Contact.findByIdAndUpdate(contactId, {
