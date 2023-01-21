@@ -7,6 +7,7 @@ const {
   removeContactController,
   updateContactController,
   patchContactController,
+  updateStatusContactController,
 } = require("../../controllers/contactsController");
 
 const {
@@ -36,7 +37,7 @@ router.patch(
 router.patch(
   "/:contactId/favorite",
   patchFavoriteContactsValidation,
-  asyncWrapper(patchContactController)
+  asyncWrapper(updateStatusContactController)
 );
 
 module.exports = router;

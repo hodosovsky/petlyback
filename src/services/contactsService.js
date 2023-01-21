@@ -62,6 +62,15 @@ const patchFavoriteContactById = async (contactId, body) => {
   });
 };
 
+const updateStatusContact = async (contactId, body) => {
+  const contact = await Contact.findById(contactId);
+  if (!contact) {
+    throw new WrongParametersError(`Contact with id '${contactId}' not found`);
+  }
+
+  await Contact.findByIdAndUpdate(contactId, body);
+};
+
 module.exports = {
   getContacts,
   getContactByID,
@@ -69,4 +78,6 @@ module.exports = {
   deleteContactById,
   changeContactById,
   patchContactById,
+  patchFavoriteContactById,
+  updateStatusContact,
 };
