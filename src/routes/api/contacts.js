@@ -12,6 +12,7 @@ const {
 const {
   addContactsValidation,
   patchContactsValidation,
+  patchFavoriteContactsValidation,
 } = require("../../middlewares/middlewares");
 
 const { asyncWrapper } = require("../../helpers/apiHelpers");
@@ -30,6 +31,11 @@ router.put(
 router.patch(
   "/:contactId",
   patchContactsValidation,
+  asyncWrapper(patchContactController)
+);
+router.patch(
+  "/:contactId/favorite",
+  patchFavoriteContactsValidation,
   asyncWrapper(patchContactController)
 );
 

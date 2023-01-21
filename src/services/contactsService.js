@@ -18,6 +18,7 @@ const getContactByID = async (contactId) => {
 const addContact = async (data) => {
   const newContact = new Contact(data);
   await newContact.save();
+  return newContact;
 };
 
 const deleteContactById = async (contactId) => {
@@ -40,6 +41,17 @@ const changeContactById = async (contactId, body) => {
 };
 
 const patchContactById = async (contactId, body) => {
+  const contact = await Contact.findById(contactId);
+  if (!contact) {
+    throw new WrongParametersError(`Contact with id '${contactId}' not found`);
+  }
+
+  await Contact.findByIdAndUpdate(contactId, {
+    $set: body,
+  });
+};
+
+const patchFavoriteContactById = async (contactId, body) => {
   const contact = await Contact.findById(contactId);
   if (!contact) {
     throw new WrongParametersError(`Contact with id '${contactId}' not found`);

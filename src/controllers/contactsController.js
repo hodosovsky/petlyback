@@ -5,6 +5,7 @@ const {
   deleteContactById,
   changeContactById,
   patchContactById,
+  patchFavoriteContactById,
 } = require("../services/contactsService");
 
 const getContactsController = async (req, res, next) => {
@@ -21,9 +22,9 @@ const getContactByIdController = async (req, res, next) => {
 };
 
 const addContactController = async (req, res, next) => {
-  await addContact(req.body);
+  const newContact = await addContact(req.body);
 
-  res.status(201).json({ status: "created" });
+  res.status(201).json({ newContact });
 };
 
 const removeContactController = async (req, res, next) => {
@@ -35,16 +36,27 @@ const removeContactController = async (req, res, next) => {
 
 const updateContactController = async (req, res, next) => {
   const { contactId } = req.params;
+
   await changeContactById(contactId, req.body);
-  res.status(200).json({ status: "success" });
+
+  const updatedContact = await getContactByID(contactId);
+  res.status(200).json(updatedContact);
 };
 
 const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
 
   await patchContactById(contactId, req.body);
+  const updatedContact = await getContactByID(contactId);
+  res.status(200).json(updatedContact);
+};
 
-  res.status(200).json({ status: "success" });
+const patchFavoriteContactController = async (req, res, next) => {
+  const { contactId } = req.params;
+
+  await patchFavoriteContactById(contactId, req.body);
+  const updatedContact = await getContactByID(contactId);
+  res.status(200).json(updatedContact);
 };
 
 module.exports = {
