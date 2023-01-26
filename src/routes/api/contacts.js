@@ -16,9 +16,12 @@ const {
   patchFavoriteContactsValidation,
 } = require("../../middlewares/middlewares");
 
+const { authMiddleware } = require("../../middlewares/authMiddleware");
+
 const { asyncWrapper } = require("../../helpers/apiHelpers");
 
 const router = express.Router();
+router.use(authMiddleware);
 
 router.get("/", asyncWrapper(getContactsController));
 router.get("/:contactId", asyncWrapper(getContactByIdController));

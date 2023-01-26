@@ -9,54 +9,62 @@ const {
 } = require("../services/contactsService");
 
 const getContactsController = async (req, res, next) => {
-  const contacts = await getContacts();
+  const { _id: ownerId } = req.user;
+  console.log(req.user);
+  const contacts = await getContacts(ownerId);
   res.json(contacts);
 };
 
 const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
+  const { _id: ownerId } = req.user;
 
-  const contact = await getContactByID(contactId);
+  const contact = await getContactByID(contactId, ownerId);
 
   res.json(contact);
 };
 
 const addContactController = async (req, res, next) => {
-  const newContact = await addContact(req.body);
+  const { _id: ownerId } = req.user;
+  const newContact = await addContact(req.body, ownerId);
 
   res.status(201).json({ newContact });
 };
 
 const removeContactController = async (req, res, next) => {
   const { contactId } = req.params;
+  const { _id: ownerId } = req.user;
 
-  await deleteContactById(contactId);
+  await deleteContactById(contactId, ownerId);
   res.json({ message: "contact deleted" });
 };
 
 const updateContactController = async (req, res, next) => {
   const { contactId } = req.params;
+  const { _id: ownerId } = req.user;
 
-  await changeContactById(contactId, req.body);
+  await changeContactById(contactId, req.body, ownerId);
 
-  const updatedContact = await getContactByID(contactId);
+  const updatedContact = await getContactByID(contactId, ownerId);
   res.status(200).json(updatedContact);
 };
 
 const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
+  const { _id: ownerId } = req.user;
 
-  await patchContactById(contactId, req.body);
-  const updatedContact = await getContactByID(contactId);
+  await patchContactById(contactId, req.body, ownerId);
+  const updatedContact = await getContactByID(contactId, ownerId);
   res.status(200).json(updatedContact);
 };
 
 const updateStatusContactController = async (req, res, next) => {
   const { contactId } = req.params;
+  const { _id: ownerId } = req.user;
 
-  await updateStatusContact(contactId, req.body);
+  await updateStatusContact(contactId, req.body, ownerId);
 
-  const updatedContact = await getContactByID(contactId);
+  const updatedContact = await getContactByID(contactId, ownerId);
   res.status(200).json(updatedContact);
 };
 
