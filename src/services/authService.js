@@ -11,14 +11,21 @@ const registration = async (email, password) => {
   const user = new User({
     email,
     password,
-    createdAt: Date.now(),
   });
 
   await user.save();
 
-  const { subscription } = user;
+  const token = jsonwebtoken.sign(
+    {
+      _id: user._id,
+      createdAt: user.createdAt,
+    },
+    process.env.JWT_SECRET
+  );
 
-  return { subscription };
+  const { email: userEmail, subscription } = user;
+
+  return { userEmail, subscription, token };
 };
 
 const login = async (email, password) => {

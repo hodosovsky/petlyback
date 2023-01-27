@@ -49,8 +49,12 @@ const changeContactById = async (contactId, body, ownerId) => {
   if (!contact) {
     throw new WrongParametersError(`Contact with id '${contactId}' not found`);
   }
-
-  await Contact.findOneAndUpdate({ _id: contactId, owner: ownerId }, body);
+  const updatedContact = await Contact.findOneAndUpdate(
+    { _id: contactId, owner: ownerId },
+    body,
+    { new: true }
+  );
+  return updatedContact;
 };
 
 const patchContactById = async (contactId, body, ownerId) => {
@@ -62,12 +66,15 @@ const patchContactById = async (contactId, body, ownerId) => {
     throw new WrongParametersError(`Contact with id '${contactId}' not found`);
   }
 
-  await Contact.findOneAndUpdate(
+  const updatedContact = await Contact.findOneAndUpdate(
     { _id: contactId, owner: ownerId },
     {
       $set: body,
-    }
+    },
+    { new: true }
   );
+
+  return updatedContact;
 };
 
 const patchFavoriteContactById = async (contactId, body, ownerId) => {
@@ -79,12 +86,14 @@ const patchFavoriteContactById = async (contactId, body, ownerId) => {
     throw new WrongParametersError(`Contact with id '${contactId}' not found`);
   }
 
-  await Contact.findOneAndUpdate(
+  const updatedContact = await Contact.findOneAndUpdate(
     { _id: contactId, owner: ownerId },
     {
       $set: body,
     }
   );
+
+  return updatedContact;
 };
 
 const updateStatusContact = async (contactId, body, ownerId) => {
@@ -96,7 +105,15 @@ const updateStatusContact = async (contactId, body, ownerId) => {
     throw new WrongParametersError(`Contact with id '${contactId}' not found`);
   }
 
-  await Contact.findOneAndUpdate({ _id: contactId, owner: ownerId }, body);
+  updatedContact = await Contact.findOneAndUpdate(
+    { _id: contactId, owner: ownerId },
+    body,
+    {
+      new: true,
+    }
+  );
+
+  return updatedContact;
 };
 
 module.exports = {

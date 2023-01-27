@@ -10,7 +10,7 @@ const {
 
 const getContactsController = async (req, res, next) => {
   const { _id: ownerId } = req.user;
-  console.log(req.user);
+
   const contacts = await getContacts(ownerId);
   res.json(contacts);
 };
@@ -43,9 +43,8 @@ const updateContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const { _id: ownerId } = req.user;
 
-  await changeContactById(contactId, req.body, ownerId);
+  const updatedContact = await changeContactById(contactId, req.body, ownerId);
 
-  const updatedContact = await getContactByID(contactId, ownerId);
   res.status(200).json(updatedContact);
 };
 
@@ -53,8 +52,8 @@ const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const { _id: ownerId } = req.user;
 
-  await patchContactById(contactId, req.body, ownerId);
-  const updatedContact = await getContactByID(contactId, ownerId);
+  const updatedContact = await patchContactById(contactId, req.body, ownerId);
+
   res.status(200).json(updatedContact);
 };
 
@@ -62,9 +61,12 @@ const updateStatusContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const { _id: ownerId } = req.user;
 
-  await updateStatusContact(contactId, req.body, ownerId);
+  const updatedContact = await updateStatusContact(
+    contactId,
+    req.body,
+    ownerId
+  );
 
-  const updatedContact = await getContactByID(contactId, ownerId);
   res.status(200).json(updatedContact);
 };
 

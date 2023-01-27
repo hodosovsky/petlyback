@@ -3,7 +3,9 @@ const { notAuthorizedError } = require("../helpers/errors");
 
 const authMiddleware = (req, res, next) => {
   const [tokenType, token] = req.headers["authorization"].split(" ");
-  if (!token) next(new notAuthorizedError({ message: "Not authorized" }));
+
+  if (!token || !jsonwebtoken.decode(token, process.env.JWT_SECRET))
+    next(new notAuthorizedError("Not authorized"));
 
   try {
     const user = jsonwebtoken.decode(token, process.env.JWT_SECRET);
@@ -11,7 +13,7 @@ const authMiddleware = (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    next(new notAuthorizedError({ message: "Not authorized" }));
+    next(new notAuthorizedError("Not authorized"));
   }
 };
 
