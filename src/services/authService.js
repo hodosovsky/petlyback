@@ -7,12 +7,18 @@ const registration = async (email, password) => {
   const findedUser = await User.findOne({ email });
 
   if (findedUser) throw new emailConflictError(`Email ${email} in use`);
-  const user = new User({ email, password });
+
+  const user = new User({
+    email,
+    password,
+    createdAt: Date.now(),
+  });
 
   await user.save();
 
   const { subscription } = user;
-  return { email, subscription };
+
+  return { subscription };
 };
 
 const login = async (email, password) => {

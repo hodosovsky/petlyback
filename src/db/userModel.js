@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
     enum: ["starter", "pro", "business"],
     default: "starter",
   },
+  createdAt: { type: String, timestamps: true },
   token: String,
 });
 

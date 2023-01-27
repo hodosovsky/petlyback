@@ -2,7 +2,8 @@ const { registration, login } = require("../services/authService");
 
 const registrationController = async (req, res) => {
   const { email, password } = req.body;
-  const { userEmail, subscription } = await registration(email, password);
+  const { subscription } = await registration(email, password);
+
   res.status(201).json({
     user: {
       email,
