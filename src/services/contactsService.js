@@ -2,7 +2,7 @@ const { Contact } = require("../db/contactsModel");
 const { WrongParametersError } = require("../helpers/errors");
 
 const getContacts = async (owner) => {
-  const contacts = await Contact.find({ owner });
+  const contacts = await Contact.find({ owner }, "-updatedAt");
   return contacts;
 };
 

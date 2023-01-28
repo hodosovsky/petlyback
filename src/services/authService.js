@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
 const { User } = require("../db/userModel");
 const { notAuthorizedError, emailConflictError } = require("../helpers/errors");
+const { createToken } = require("../helpers/apiHelpers");
 
 const registration = async (email, password) => {
   const findedUser = await User.findOne({ email });
@@ -14,14 +15,7 @@ const registration = async (email, password) => {
   });
 
   await user.save();
-
-  const token = jsonwebtoken.sign(
-    {
-      _id: user._id,
-      createdAt: user.createdAt,
-    },
-    process.env.JWT_SECRET
-  );
+  const token = await createToken(user);
 
   const { email: userEmail, subscription } = user;
 
@@ -36,18 +30,42 @@ const login = async (email, password) => {
   if (!(await bcrypt.compare(password, user.password)))
     throw new notAuthorizedError("Wrong password");
 
-  const token = jsonwebtoken.sign(
-    {
-      _id: user._id,
-      createdAt: user.createdAt,
-    },
-    process.env.JWT_SECRET
-  );
+  const token = await createToken(user);
+
   const { _id, subscription } = user;
+
   return { token, _id, subscription };
 };
 
+const logout = async (token) => {
+  if (!token || !jsonwebtoken.decode(token, process.env.JWT_SECRET))
+    throw new notAuthorizedError("Not authorized");
+
+  try {
+    const user = jsonwebtoken.decode(token, process.env.JWT_SECRET);
+    const findedUser = await User.findByIdAndUpdate(user?._id, { token: "" });
+    if (!findedUser) throw new notAuthorizedError("Not authorized");
+  } catch (error) {
+    throw new notAuthorizedError("Not authorized");
+  }
+};
+
+const getCurrentUser = async (token) => {
+  if (!token || !jsonwebtoken.decode(token, process.env.JWT_SECRET))
+    throw new notAuthorizedError("Not authorized");
+
+  try {
+    const user = jsonwebtoken.decode(token, process.env.JWT_SECRET);
+    const findedUser = await User.findByIdAndUpdate(user?._id);
+    if (!findedUser) throw new notAuthorizedError("Not authorized");
+    return findedUser;
+  } catch (error) {
+    throw new notAuthorizedError("Not authorized");
+  }
+};
 module.exports = {
   registration,
   login,
+  logout,
+  getCurrentUser,
 };
