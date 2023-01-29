@@ -1,8 +1,17 @@
 const { Contact } = require("../db/contactsModel");
 const { WrongParametersError } = require("../helpers/errors");
 
-const getContacts = async (owner) => {
-  const contacts = await Contact.find({ owner }, "-updatedAt");
+const getContacts = async (owner, { page, limit, favorite }) => {
+  const contacts = await Contact.find(
+    { owner },
+
+    " -createdAt -updatedAt -owner"
+  )
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .sort("-createdAt")
+    .find(favorite && { favorite });
+
   return contacts;
 };
 

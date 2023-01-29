@@ -43,7 +43,7 @@ const logout = async (token) => {
 
   try {
     const user = jsonwebtoken.decode(token, process.env.JWT_SECRET);
-    const findedUser = await User.findByIdAndUpdate(user?._id, { token: "" });
+    const findedUser = await User.findByIdAndUpdate(user?._id, { token: null });
     if (!findedUser) throw new notAuthorizedError("Not authorized");
   } catch (error) {
     throw new notAuthorizedError("Not authorized");
@@ -63,9 +63,32 @@ const getCurrentUser = async (token) => {
     throw new notAuthorizedError("Not authorized");
   }
 };
+
+const changeSubscription = async (token, body) => {
+  if (!token || !jsonwebtoken.verify(token, process.env.JWT_SECRET))
+    throw new notAuthorizedError("Not authorized");
+
+  try {
+    const user = jsonwebtoken.verify(token, process.env.JWT_SECRET);
+    const findedUser = await User.findByIdAndUpdate(
+      user?._id,
+      {
+        $set: body,
+      },
+      {
+        new: true,
+      }
+    );
+    if (!findedUser) throw new notAuthorizedError("Not authorized");
+    return findedUser;
+  } catch (error) {
+    throw new notAuthorizedError("Not authorized");
+  }
+};
 module.exports = {
   registration,
   login,
   logout,
   getCurrentUser,
+  changeSubscription,
 };

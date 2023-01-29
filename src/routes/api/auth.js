@@ -5,11 +5,15 @@ const {
   loginController,
   logoutController,
   currentUserController,
+  changeSubscriptionController,
 } = require("../../controllers/authController");
 
 const { asyncWrapper } = require("../../helpers/apiHelpers");
 
-const { userAuthValidation } = require("../../middlewares/middlewares");
+const {
+  userAuthValidation,
+  changeSubscriptionValidation,
+} = require("../../middlewares/middlewares");
 const { authMiddleware } = require("../../middlewares/authMiddleware");
 
 const router = express.Router();
@@ -22,5 +26,11 @@ router.post(
 router.post("/login", userAuthValidation, asyncWrapper(loginController));
 router.post("/logout", authMiddleware, asyncWrapper(logoutController));
 router.get("/current", authMiddleware, asyncWrapper(currentUserController));
+router.patch(
+  "/",
+  authMiddleware,
+  changeSubscriptionValidation,
+  asyncWrapper(changeSubscriptionController)
+);
 
 module.exports = router;

@@ -1,31 +1,196 @@
-## GoIT Node.js Course Template Homework
+POST users/register - Create a new user
 
-Виконайте форк цього репозиторію для виконання домашніх завдань (2-6)
-Форк створить репозиторій на вашому http://github.com
+    Parameters: No parameters
+    Request body (required):
+        {
+    "email": "user@mail.com",
+    "password": "password"
+        }
 
-Додайте ментора до колаборації
+    response:
+        201	User created
 
-Для кожної домашньої роботи створюйте свою гілку.
+        400	User creation error
 
-- hw02
-- hw03
-- hw04
-- hw05
-- hw06
+        500	Server error
 
-Кожна нова гілка для др повинна робитися з master
+POST users/login - Login user
 
-Після того, як ви закінчили виконувати домашнє завдання у своїй гілці, необхідно зробити пулл-реквест (PR). Потім додати ментора для рев'ю коду. Тільки після того, як ментор заапрувить PR, ви можете виконати мердж гілки з домашнім завданням у майстер.
+    Parameters: No parameters
+    Request body (required):
+        {
+    "email": "user@mail.com" (string),
+    "password": "password" (string)
+        }
 
-Уважно читайте коментарі ментора. Виправте зауваження та зробіть коміт у гілці з домашнім завданням. Зміни підтягнуться у PR автоматично після того, як ви відправите коміт з виправленнями на github
-Після виправлення знову додайте ментора на рев'ю коду.
+    response:
+        200	User is logged in
 
-- При здачі домашньої роботи є посилання на PR
-- JS-код чистий та зрозумілий, для форматування використовується Prettier
+        400	Login error
 
-### Команди:
+POST users/logout - Login user
 
-- `npm start` &mdash; старт сервера в режимі production
-- `npm run start:dev` &mdash; старт сервера в режимі розробки (development)
-- `npm run lint` &mdash; запустити виконання перевірки коду з eslint, необхідно виконувати перед кожним PR та виправляти всі помилки лінтера
-- `npm lint:fix` &mdash; та ж перевірка лінтера, але з автоматичними виправленнями простих помилок
+    Parameters: Authorization The token issued to the current user.
+    (Authorization: Bearer token)
+
+    response:
+        200	The user is logged out.
+
+        401	Missing header with authorization token.
+
+        500	Server error
+
+GET users/current - Get information about the current user
+
+    Parameters: Authorization The token issued to the current user.
+    (Authorization: Bearer token)
+
+    response:
+        200	Information found.
+
+        401	Missing header with authorization token.
+
+PATCH /users - Change subscription field
+
+    Parameters: Authorization The token issued to the current user.
+    (Authorization: Bearer token)
+    Request body (required):
+        {
+         "subscription": "pro"
+        }
+
+    subscription may be only: "starter", "pro", "business"
+
+    response:
+        200	User is logged in
+
+        401	Missing header with authorization token
+
+GET /contacts Get all user contacts
+
+    Parameters: Authorization The token issued to the current user.
+    (Authorization: Bearer token
+
+    Response:
+        Code	Description	Links
+        200	    Contacts found.
+
+        401	    Missing header with authorization token.
+
+        404	    There is no such user collection.
+
+        500	    Server error.
+
+POST /contacts Get all user contacts
+
+    Parameters: Authorization The token issued to the current user.
+    (Authorization: Bearer token)
+
+    Request body (required):
+    Example Value Schema
+            {
+            "name": "name",
+            "email": "name@mail.com",
+            "phone": "123456789"
+            }
+
+
+
+    Response:
+        Code	Description	Links
+        201	    The contact was successfully created.
+
+        400	    Error creating contact
+
+        401	    Missing header with authorization token.
+
+DELETE /contacts/{contactId}
+
+        Parameters:
+
+        contactId *integer (path) Contact ID.
+
+        Authorization The token issued to the current user.
+        (Authorization: Bearer token)
+
+        Responses
+        200	    The contact was successfully deleted.
+
+        401	    Missing header with authorization token.
+
+        404	    There is no such user collection.
+
+        500	    Server error.
+
+PUT /contacts/{contactId} Update an existing contact
+
+         Parameters:
+
+        contactId *integer (path) Contact ID.
+
+        Authorization The token issued to the current user.
+        (Authorization: Bearer token)
+
+        Request body (required):
+        Example Value Schema
+            {
+            "name": "name", (required)
+            "email": "name@mail.com", (required)
+            "phone": "123456789" (required)
+            }
+
+        Response:
+        Code	Description	Links
+        201	    The contact was successfully updated
+
+        400	    Contact update failed
+
+        401	    Missing header with authorization token.
+
+PATCH /contacts/{contactId} Update some existing contact fields
+
+         Parameters:
+
+        contactId *integer (path) Contact ID.
+
+        Authorization The token issued to the current user.
+        (Authorization: Bearer token)
+
+        Request body (required):
+        Example Value Schema
+            {
+            "name": "name",
+            "email": "name@mail.com",
+            "phone": "123456789"
+            }
+
+        Response:
+        Code	Description	Links
+        201	    The contact was successfully updated
+
+        400	    Contact update failed
+
+        401	    Missing header with authorization token.
+
+PATCH /contacts/{contactId}/favorite/ Update "favorite" contact's field
+
+         Parameters:
+
+        contactId *integer (path) Contact ID.
+
+        Authorization The token issued to the current user.
+        (Authorization: Bearer token)
+
+        Request body (required):
+        Example Value Schema
+            {
+            "favorite": bolean
+            }
+
+        Response:
+        Code	Description	Links
+        201	    The contact was successfully updated
+
+        400	    Contact update failed
+
+        401	    Missing header with authorization token.

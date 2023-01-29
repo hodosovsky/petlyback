@@ -10,8 +10,12 @@ const {
 
 const getContactsController = async (req, res, next) => {
   const { _id: ownerId } = req.user;
+  let { page, limit = 20, favorite } = req.query;
 
-  const contacts = await getContacts(ownerId);
+  limit = +limit > 20 ? 20 : +limit;
+  page = +page;
+
+  const contacts = await getContacts(ownerId, { page, limit, favorite });
   res.json(contacts);
 };
 
