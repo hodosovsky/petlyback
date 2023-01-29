@@ -51,11 +51,11 @@ const logout = async (token) => {
 };
 
 const getCurrentUser = async (token) => {
-  if (!token || !jsonwebtoken.decode(token, process.env.JWT_SECRET))
+  if (!token || !jsonwebtoken.verify(token, process.env.JWT_SECRET))
     throw new notAuthorizedError("Not authorized");
 
   try {
-    const user = jsonwebtoken.decode(token, process.env.JWT_SECRET);
+    const user = jsonwebtoken.verify(token, process.env.JWT_SECRET);
     const findedUser = await User.findByIdAndUpdate(user?._id);
     if (!findedUser) throw new notAuthorizedError("Not authorized");
     return findedUser;

@@ -15,16 +15,12 @@ const { authMiddleware } = require("../../middlewares/authMiddleware");
 const router = express.Router();
 
 router.post(
-  "/users/register",
+  "/register",
   userAuthValidation,
   asyncWrapper(registrationController)
 );
-router.post("/users/login", userAuthValidation, asyncWrapper(loginController));
-router.post("/users/logout", authMiddleware, asyncWrapper(logoutController));
-router.get(
-  "/users/current",
-  authMiddleware,
-  asyncWrapper(currentUserController)
-);
+router.post("/login", userAuthValidation, asyncWrapper(loginController));
+router.post("/logout", authMiddleware, asyncWrapper(logoutController));
+router.get("/current", authMiddleware, asyncWrapper(currentUserController));
 
 module.exports = router;
