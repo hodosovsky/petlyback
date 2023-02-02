@@ -114,7 +114,7 @@ const updateStatusContact = async (contactId, body, ownerId) => {
     throw new WrongParametersError(`Contact with id '${contactId}' not found`);
   }
 
-  updatedContact = await Contact.findOneAndUpdate(
+  const updatedContact = await Contact.findOneAndUpdate(
     { _id: contactId, owner: ownerId },
     body,
     {

@@ -8,7 +8,7 @@ const {
 
 const registrationController = async (req, res) => {
   const { email, password } = req.body;
-  const { userEmail, subscription, token } = await registration(
+  const { userEmail, subscription, token, avatarURL } = await registration(
     email,
     password
   );
@@ -18,6 +18,7 @@ const registrationController = async (req, res) => {
     user: {
       email: userEmail,
       subscription,
+      avatarURL,
     },
   });
 };
@@ -30,7 +31,7 @@ const loginController = async (req, res) => {
 };
 
 const logoutController = async (req, res) => {
-  const [tokenType, token] = req.headers["authorization"].split(" ");
+  const [, token] = req.headers.authorization.split(" ");
 
   await logout(token);
 
@@ -38,7 +39,7 @@ const logoutController = async (req, res) => {
 };
 
 const currentUserController = async (req, res) => {
-  const [tokenType, token] = req.headers["authorization"].split(" ");
+  const [, token] = req.headers.authorization.split(" ");
 
   const { email, subscription } = await getCurrentUser(token);
 
@@ -46,7 +47,7 @@ const currentUserController = async (req, res) => {
 };
 
 const changeSubscriptionController = async (req, res) => {
-  const [tokenType, token] = req.headers["authorization"].split(" ");
+  const [, token] = req.headers.authorization.split(" ");
 
   const { email, subscription } = await changeSubscription(token, req.body);
 

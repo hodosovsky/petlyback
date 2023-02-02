@@ -1,6 +1,6 @@
 const jsonwebtoken = require("jsonwebtoken");
 const { User } = require("../db/userModel");
-const { customError } = require("./errors");
+const { CustomError } = require("./errors");
 
 const asyncWrapper = (controller) => {
   return (req, res, next) => {
@@ -9,7 +9,7 @@ const asyncWrapper = (controller) => {
 };
 
 const errorHandler = (err, req, res, next) => {
-  if (err instanceof customError) {
+  if (err instanceof CustomError) {
     return res.status(err.status).json({ message: err.message });
   }
   res.status(500).json({ message: err.message });
@@ -21,7 +21,8 @@ const createToken = async (user) => {
       _id: user._id,
       createdAt: user.createdAt,
     },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" }
   );
   await User.findByIdAndUpdate(user?._id, { token });
 
