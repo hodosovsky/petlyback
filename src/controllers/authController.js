@@ -66,16 +66,7 @@ const changeAvatarController = async (req, res) => {
   try {
     const [, token] = req.headers.authorization.split(" ");
     const { _id } = await getCurrentUser(token);
-    const avatarPath = await changeAvatar(temporaryName, _id);
-    const { avatarURL } = await User.findOneAndUpdate(
-      _id,
-      {
-        avatarURL: avatarPath.replace(/\\/g, "/"),
-      },
-      {
-        new: true,
-      }
-    );
+    const avatarURL = await changeAvatar(temporaryName, _id);
 
     res.status(200).json({ avatarURL });
   } catch (error) {

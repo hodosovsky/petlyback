@@ -15,7 +15,7 @@ const registration = async (email, password) => {
 
   const avatarURL = gravatar.url(
     email,
-    { s: "100", r: "x", d: "robohash" },
+    { s: "250", r: "x", d: "robohash" },
     true
   );
 
@@ -106,11 +106,7 @@ const changeAvatar = async (temporaryName, id) => {
   await fs.rename(temporaryName, fileName);
   Jimp.read(fileName)
     .then((avatar) => {
-      return avatar
-        .resize(256, 256) // resize
-        .quality(60) // set JPEG quality
-        .greyscale() // set greyscale
-        .write(fileName); // save
+      return avatar.resize(250, 250).write(fileName);
     })
     .catch((err) => {
       fs.unlink(fileName);
@@ -119,7 +115,17 @@ const changeAvatar = async (temporaryName, id) => {
 
   const avatarPath = path.join("avatars", newName);
 
-  return avatarPath;
+  const { avatarURL } = await User.findOneAndUpdate(
+    id,
+    {
+      avatarURL: avatarPath.replace(/\\/g, "/"),
+    },
+    {
+      new: true,
+    }
+  );
+
+  return avatarURL;
 };
 
 module.exports = {
