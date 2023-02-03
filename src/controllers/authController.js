@@ -61,17 +61,11 @@ const avatarsUploadController = async (req, res) => {
 };
 
 const changeAvatarController = async (req, res) => {
-  const { path: temporaryName } = req.file;
+  const [, token] = req.headers.authorization.split(" ");
+  const { _id } = await getCurrentUser(token);
+  const avatarURL = await changeAvatar(req.file, _id);
 
-  try {
-    const [, token] = req.headers.authorization.split(" ");
-    const { _id } = await getCurrentUser(token);
-    const avatarURL = await changeAvatar(temporaryName, _id);
-
-    res.status(200).json({ avatarURL });
-  } catch (error) {
-    console.log(error);
-  }
+  res.status(200).json({ avatarURL });
 };
 
 module.exports = {
