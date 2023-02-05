@@ -74,29 +74,6 @@ const updateStatusContactController = async (req, res, next) => {
   res.status(200).json(updatedContact);
 };
 
-const changeAvatarController = async (req, res) => {
-  const { path: temporaryName } = req.file;
-
-  try {
-    const [, token] = req.headers.authorization.split(" ");
-    const { _id } = await getCurrentUser(token);
-    const avatarPath = await changeAvatar(temporaryName, _id);
-    const { avatarURL } = await User.findOneAndUpdate(
-      _id,
-      {
-        avatarURL: avatarPath.replace(/\\/g, "/"),
-      },
-      {
-        new: true,
-      }
-    );
-
-    res.status(200).json({ avatarURL });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 module.exports = {
   getContactsController,
   getContactByIdController,
@@ -105,5 +82,4 @@ module.exports = {
   updateContactController,
   patchContactController,
   updateStatusContactController,
-  changeAvatarController,
 };
