@@ -32,7 +32,11 @@ const userSchema = new mongoose.Schema(
     },
     favorites: {
       type: mongoose.Schema.Types.Array,
-      default: ["fdgdf"],
+      default: [],
+    },
+    userPets: {
+      type: mongoose.Schema.Types.Array,
+      default: [],
     },
     token: String,
     avatarURL: String,

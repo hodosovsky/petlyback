@@ -34,10 +34,10 @@ const registration = async ({ name, email, password, phone, city }) => {
   });
 
   await user.save();
+  const loginObj = { email, password };
+  const { token, user: loginedUser } = await login(loginObj);
 
-  const { token } = await login(email, password);
-
-  return { token, user };
+  return { token, loginedUser };
 };
 
 module.exports = { registration };
