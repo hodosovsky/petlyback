@@ -58,7 +58,10 @@ module.exports = {
   userAuthValidation: (req, res, next) => {
     const schema = Joi.object({
       email: Joi.string().email().required(),
-      password: Joi.string().min(4).required(),
+      password: Joi.string().min(7).max(32).required(),
+      name: Joi.string().min(4).required(),
+      phone: Joi.string().required(),
+      city: Joi.string().required(),
     });
     const validationResult = schema.validate(req.body);
 

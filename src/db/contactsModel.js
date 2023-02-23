@@ -13,8 +13,8 @@ const contactSchema = new mongoose.Schema(
       type: String,
     },
     favorite: {
-      type: Boolean,
-      default: false,
+      type: mongoose.Schema.Types.Array,
+      default: [],
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,

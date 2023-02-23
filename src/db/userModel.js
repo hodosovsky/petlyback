@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const { string } = require("joi");
 
 const userSchema = new mongoose.Schema(
   {
@@ -7,16 +8,31 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Set password for user"],
     },
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+    },
     email: {
       type: String,
       required: [true, "Email is required"],
       unique: true,
     },
-    subscription: {
+    phone: {
       type: String,
-      enum: ["starter", "pro", "business"],
+      required: [true, "Phone is required"],
+    },
+    birthday: {
+      type: mongoose.Schema.Types.Date,
       required: true,
-      default: "starter",
+      default: Date.now(),
+    },
+    city: {
+      type: String,
+      required: [true, "City is required"],
+    },
+    favorites: {
+      type: mongoose.Schema.Types.Array,
+      default: ["fdgdf"],
     },
     token: String,
     avatarURL: String,
