@@ -1,5 +1,5 @@
-const { changeAvatar } = require("../../services/auth/changeAvatar");
-const { getCurrentUser } = require("../../services/auth/current");
+const { changeAvatar } = require("../../services/user/changeAvatar");
+const { getCurrentUser } = require("../../services/user/current");
 
 const changeAvatarController = async (req, res) => {
   const [, token] = req.headers.authorization.split(" ");

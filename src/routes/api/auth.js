@@ -3,16 +3,18 @@ const express = require("express");
 const { registrationController } = require("../../controllers/auth/register");
 const { loginController } = require("../../controllers/auth/login");
 const { logoutController } = require("../../controllers/auth/logout");
-const { currentUserController } = require("../../controllers/auth/current");
+const { currentUserController } = require("../../controllers/user/current");
 const {
   changeAvatarController,
-} = require("../../controllers/auth/changeAvatar");
+} = require("../../controllers/user/changeAvatar");
+const { patchUserController } = require("../../controllers/user/patchUser");
 
 const { asyncWrapper } = require("../../helpers/apiHelpers");
 
 const {
   userAuthValidation,
   userLoginValidation,
+  changeUserValidation,
 } = require("../../middlewares/middlewares");
 const { authMiddleware } = require("../../middlewares/authMiddleware");
 const { uploadMiddleware } = require("../../helpers/multerConfig");
@@ -26,12 +28,12 @@ router.post(
 router.post("/login", userLoginValidation, asyncWrapper(loginController));
 router.post("/logout", authMiddleware, asyncWrapper(logoutController));
 router.get("/current", authMiddleware, asyncWrapper(currentUserController));
-// router.patch(
-//   "/",
-//   authMiddleware,
-//   changeSubscriptionValidation,
-//   asyncWrapper(changeSubscriptionController)
-// );
+router.patch(
+  "/",
+  authMiddleware,
+  changeUserValidation,
+  asyncWrapper(patchUserController)
+);
 router.patch(
   "/avatars",
   authMiddleware,
