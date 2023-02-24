@@ -4,6 +4,7 @@ const cors = require('cors')
 require('dotenv').config()
 const petsRouter = require('./routes/api/pets')
 const authRouter = require('./routes/api/auth')
+const noticesRouter = require('./routes/api/notices')
 const { errorHandler } = require('../src/helpers/apiHelpers')
 
 const servicesRoutes = require("./routes/api/servicesRoutes");
@@ -25,6 +26,7 @@ app.use("/api/pets", petsRouter);
 app.use("/api/users", authRouter);
 app.use("/api/news", newsRoutes);
 app.use("/api/services", servicesRoutes);
+app.use("/api/notices", noticesRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' })
