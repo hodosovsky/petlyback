@@ -1,18 +1,27 @@
-const {User} = require("../../db/userModel");
+const { User } = require('../../db/userModel');
 const { ValidationError } = require("../../helpers/errors");
 
 const addToFavoriteNotice = async (req, res) => {
-  const { noticeId } = req.params;
-  const { id: userId } = req.user;
-  const result = await User.findByIdAndUpdate(
-    { _id: userId },
-    { $push: { favorites: noticeId } }
-  );
+  const { _id, favorite } = req.user;
+  const { id } = req.params;
 
-  if (!result) {
-    throw ValidationError(404);
+  if (favorite.includes(id)) {
+    throw new ValidationError('this notice is already in favorites');
   }
-  res.json(result);
+
+  const user = await User.findByIdAndUpdate(
+    _id,
+    { $push: { favorites: id } },
+    { new: true }
+  );
+  if (!user) {
+    throw new ValidationError('there is no such user');
+  }
+
+  res.status(201).json({
+    favorites: user.favorite,
+    message: 'notice add to favorite',
+  });
 };
 
 module.exports = {addToFavoriteNotice} ;
