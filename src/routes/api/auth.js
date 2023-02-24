@@ -10,7 +10,10 @@ const {
 
 const { asyncWrapper } = require("../../helpers/apiHelpers");
 
-const { userAuthValidation } = require("../../middlewares/middlewares");
+const {
+  userAuthValidation,
+  userLoginValidation,
+} = require("../../middlewares/middlewares");
 const { authMiddleware } = require("../../middlewares/authMiddleware");
 const { uploadMiddleware } = require("../../helpers/multerConfig");
 const router = express.Router();
@@ -20,7 +23,7 @@ router.post(
   userAuthValidation,
   asyncWrapper(registrationController)
 );
-router.post("/login", userAuthValidation, asyncWrapper(loginController));
+router.post("/login", userLoginValidation, asyncWrapper(loginController));
 router.post("/logout", authMiddleware, asyncWrapper(logoutController));
 router.get("/current", authMiddleware, asyncWrapper(currentUserController));
 // router.patch(
