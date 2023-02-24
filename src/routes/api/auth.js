@@ -18,6 +18,7 @@ const {
 } = require("../../middlewares/middlewares");
 const { authMiddleware } = require("../../middlewares/authMiddleware");
 const { uploadMiddleware } = require("../../helpers/multerConfig");
+// const passport = require("../../middlewares/googleAuth");
 const router = express.Router();
 
 router.post(
