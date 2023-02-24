@@ -30,17 +30,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "City is required"],
     },
-    favorites: {
-      type: mongoose.Schema.Types.Array,
-      default: [],
+    avatarURL: {
+      type: String,
+      default: null,
     },
-    userPets: {
-      type: mongoose.Schema.Types.Array,
-      default: [],
-    },
-    token: String,
-    avatarURL: String,
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "notice" }],
+    userPets: [{ type: mongoose.Schema.Types.ObjectId, ref: "userPet" }],
+    token: {
+      type: String,
+      default: null,
   },
+},
   { versionKey: false, timestamps: true }
 );
 
