@@ -1,12 +1,10 @@
 const { User } = require("../../db/userModel");
 const { ValidationError } = require("../../helpers/errors");
-const { cloudUpload } = require("../cloudUpload")
+const { cloudUpload } = require("../../helpers/cloudUpload");
 
 const fs = require("fs").promises;
 
 const changeAvatar = async (file, id) => {
-  
-
   if (!file) {
     throw new ValidationError("transfer file, please");
   }
@@ -20,8 +18,8 @@ const changeAvatar = async (file, id) => {
   }
 
   try {
-    const {path, fieldname} = file;
-    const {url: avatarUrl} = await cloudUpload(path, fieldname, id);
+    const { path, fieldname } = file;
+    const { url: avatarUrl } = await cloudUpload(path, fieldname, id);
 
     await User.findOneAndUpdate(
       id,
