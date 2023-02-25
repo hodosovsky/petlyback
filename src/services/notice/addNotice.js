@@ -1,14 +1,11 @@
 const { Notices } = require("../../db/noticesModel");
 const gravatar = require("gravatar");
-const { cloudUpload } = require("../../helpers/cloudUpload");
+const { petPhotoUpload } = require("../../helpers/petPhotoUpload");
 const { ValidationError } = require("../../helpers/errors");
 
 const addNotice = async (data, file, owner) => {
-  if (!file) {
-    throw new ValidationError(`no file`);
-  }
   const { path, fieldname } = file;
-  const { url } = await cloudUpload(path, fieldname, owner);
+  const { url } = await petPhotoUpload(path, fieldname, owner);
 
   const newNotice = await Notices.create({
     ...data,

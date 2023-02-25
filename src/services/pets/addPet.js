@@ -8,17 +8,6 @@ const { petPhotoUpload } = require("../../helpers/petPhotoUpload");
 const addPet = async (data, file, owner) => {
   const { name, birthday, breed, comments } = data;
 
-  if (!file) {
-    throw new ValidationError("transfer file, please");
-  }
-
-  const { path: temporaryName } = file;
-  const [, extension] = temporaryName?.split(".");
-
-  if (extension.toLowerCase() !== "jpg" && extension.toLowerCase() !== "png") {
-    await fs.unlink(temporaryName);
-    throw new ValidationError("file must be '.jpg' or '.png'");
-  }
   const newPet = await Pet.create({
     name,
     birthday,
@@ -58,7 +47,6 @@ const addPet = async (data, file, owner) => {
 
 module.exports = { addPet };
 
-// const changeAvatar = async (file, id) => {
 //   if (!file) {
 //     throw new ValidationError("transfer file, please");
 //   }
