@@ -18,7 +18,8 @@ const {
 } = require("../../middlewares/middlewares");
 const { authMiddleware, validatinFileType } = require("../../middlewares");
 const { uploadMiddleware } = require("../../helpers/multerConfig");
-// const passport = require("../../middlewares/googleAuth");
+const { googleAuthController } = require("../../controllers/auth/googleAuth");
+const passport = require("../../middlewares/googleAuth");
 const router = express.Router();
 
 router.post(
@@ -41,6 +42,15 @@ router.patch(
   uploadMiddleware.single("avatar"),
   validatinFileType,
   asyncWrapper(changeAvatarController)
+);
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { session: false }),
+  googleAuthController
 );
 
 module.exports = router;
