@@ -1,23 +1,32 @@
-const express = require("express");
+const express = require('express')
 
-// const {} = require("../../controllers/notices");
+const {
+  getNoticesByCategoryController,
+} = require('../../controllers/notices/getNoticesByCategory')
+const {
+  getAllCategoriesController,
+} = require('../../controllers/notices/getAllCategories')
 
-const { schemas } = require("./../../db/noticesModel");
+const { schemas } = require('./../../db/noticesModel')
 
 const {
   addContactsValidation,
   patchContactsValidation,
   patchFavoriteContactsValidation,
-} = require("../../middlewares/middlewares");
+} = require('../../middlewares/middlewares')
 
-const { authMiddleware } = require("../../middlewares/authMiddleware");
+const { authMiddleware } = require('../../middlewares/authMiddleware')
 
-const { asyncWrapper } = require("../../helpers/apiHelpers");
+const { asyncWrapper } = require('../../helpers/apiHelpers')
 
-const router = express.Router();
-router.use(authMiddleware);
+const router = express.Router()
+// router.use(authMiddleware)
 
-// router.get("/", schemas.noticeValidateSchema, asyncWrapper());
-// router.get("/:noticesId", asyncWrapper());
+router.get(
+  '/',
+  // schemas.noticeValidateSchema,
+  asyncWrapper(getAllCategoriesController)
+)
+router.get('/:noticesId', asyncWrapper(getNoticesByCategoryController))
 
-module.exports = router;
+module.exports = router
