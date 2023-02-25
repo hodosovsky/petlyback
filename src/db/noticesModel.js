@@ -5,14 +5,14 @@ const handleSaveErrors = require("../helpers/handleSaveErrors");
 
 const regexDate =
   /^((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})*$/;
-  const locationRegExp =
+const locationRegExp =
   /^[A-ZА-ЯЁАЩЬЮЯҐЄІЇ][a-zA-Zа-яёА-ЯЁА-ЩЬЮЯҐЄІЇа-щьюяґєії\-]+,\s?[A-ZА-ЯЁАЩЬЮЯҐЄІЇ][a-zA-Zа-яёА-ЯЁА-ЩЬЮЯҐЄІЇа-щьюяґєії]+$/;
 
 const noticesShema = new Schema(
   {
     categoryName: {
       type: String,
-      enum: ["sell", "lost/found", "in good hands"],
+      enum: ["sell", "lost-found", "in-good-hands"],
       required: [true, "Notice type is required"],
     },
 
@@ -30,7 +30,7 @@ const noticesShema = new Schema(
       default: null,
     },
 
-    birthdate: {
+    birthday: {
       type: String,
       default: null,
     },
@@ -83,23 +83,23 @@ const noticeAddValidateSchema = Joi.object({
   categoryName: Joi.string(),
   title: Joi.string(),
   name: Joi.string(),
-  birthdate: Joi.string().pattern(new RegExp(regexDate)),
+  birthday: Joi.string().pattern(new RegExp(regexDate)),
   breed: Joi.string(),
   sex: Joi.string(),
   location: Joi.string(),
   price: Joi.number().min(1),
   comments: Joi.string(),
-})
+});
 
 const noticeValidateSchema = Joi.object({
-  birthdate: Joi.string().pattern(new RegExp(regexDate)),
+  birthday: Joi.string().pattern(new RegExp(regexDate)),
   location: Joi.string().pattern(locationRegExp),
   price: Joi.number().min(1),
 });
 
 const schemas = {
   noticeValidateSchema,
-  noticeAddValidateSchema
+  noticeAddValidateSchema,
 };
 
 const Notices = model("notices", noticesShema);
