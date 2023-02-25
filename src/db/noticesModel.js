@@ -79,6 +79,17 @@ const noticesShema = new Schema(
 );
 
 noticesShema.post("save", handleSaveErrors);
+const noticeAddValidateSchema = Joi.object({
+  categoryName: Joi.string(),
+  title: Joi.string(),
+  name: Joi.string(),
+  birthdate: Joi.string().pattern(new RegExp(regexDate)),
+  breed: Joi.string(),
+  sex: Joi.string(),
+  location: Joi.string(),
+  price: Joi.number().min(1),
+  comments: Joi.string(),
+})
 
 const noticeValidateSchema = Joi.object({
   birthdate: Joi.string().pattern(new RegExp(regexDate)),
@@ -88,6 +99,7 @@ const noticeValidateSchema = Joi.object({
 
 const schemas = {
   noticeValidateSchema,
+  noticeAddValidateSchema
 };
 
 const Notices = model("notices", noticesShema);

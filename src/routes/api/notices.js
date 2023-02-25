@@ -1,6 +1,7 @@
 const express = require("express");
 
-// const {} = require("../../controllers/notices");
+const {addNoticeController} = require("../../controllers/notices");
+
 
 const { schemas } = require("./../../db/noticesModel");
 
@@ -10,7 +11,8 @@ const {
   patchFavoriteContactsValidation,
 } = require("../../middlewares/middlewares");
 
-const { authMiddleware } = require("../../middlewares/authMiddleware");
+const { authMiddleware, validationBody, validatinFileType } = require("../../middlewares/index");
+const {uploadMiddleware} = require("../../helpers/multerConfig");
 
 const { asyncWrapper } = require("../../helpers/apiHelpers");
 
@@ -19,5 +21,13 @@ router.use(authMiddleware);
 
 // router.get("/", schemas.noticeValidateSchema, asyncWrapper());
 // router.get("/:noticesId", asyncWrapper());
+
+router.post(
+  "/",
+  authMiddleware,
+  uploadMiddleware.single("notice"), validatinFileType,
+  validationBody(schemas.noticeAddValidateSchema),
+  asyncWrapper(addNoticeController)
+);
 
 module.exports = router;
