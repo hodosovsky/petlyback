@@ -16,7 +16,7 @@ const {
   userLoginValidation,
   changeUserValidation,
 } = require("../../middlewares/middlewares");
-const { authMiddleware } = require("../../middlewares/authMiddleware");
+const { authMiddleware, validatinFileType } = require("../../middlewares");
 const { uploadMiddleware } = require("../../helpers/multerConfig");
 // const passport = require("../../middlewares/googleAuth");
 const router = express.Router();
@@ -39,7 +39,7 @@ router.patch(
   "/avatars",
   authMiddleware,
   uploadMiddleware.single("avatar"),
-
+  validatinFileType,
   asyncWrapper(changeAvatarController)
 );
 
