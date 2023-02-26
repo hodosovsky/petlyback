@@ -9,6 +9,9 @@ const {
   getAllCategoriesController,
 } = require("../../controllers/notices/getAllCategories");
 
+const { getUserFavorites } = require("../../controllers/notices/getUserFavorites");
+const { addToFavoriteNotice } = require("../../controllers/notices/addToFavoriteNotice");
+
 const { schemas } = require("./../../db/noticesModel");
 
 const {
@@ -17,6 +20,8 @@ const {
   patchFavoriteContactsValidation,
 } = require("../../middlewares/middlewares");
 
+
+const { isValidId } = require("../../middlewares/isValidId");
 const {
   authMiddleware,
   validationBody,
@@ -28,6 +33,15 @@ const { asyncWrapper } = require("../../helpers/apiHelpers");
 
 const router = express.Router();
 // router.use(authMiddleware)
+
+// favoriteNotices
+router.get("/favorite", authMiddleware, asyncWrapper(getUserFavorites));
+router.patch(
+  "/favorite/:noticeId",
+  authMiddleware,
+  isValidId,
+  asyncWrapper(addToFavoriteNotice)
+);
 
 router.get(
   "/",
@@ -44,5 +58,9 @@ router.post(
   validationBody(schemas.noticeAddValidateSchema),
   asyncWrapper(addNoticeController)
 );
+
+
+
+
 
 module.exports = router;
