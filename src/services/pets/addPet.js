@@ -22,24 +22,38 @@ const addPet = async (data, file, owner) => {
   await user.save();
 
   try {
-    const { path, fieldname } = file;
-    const { url: avatarUrl } = await petPhotoUpload(
-      path,
-      fieldname,
-      newPet._id
-    );
+    if (file) {
+      const [, extension] = file.path?.split(".");
 
-    const petWithAvatar = await Pet.findOneAndUpdate(
-      newPet._id,
-      {
-        avatarURL: avatarUrl,
-      },
-      {
-        new: true,
-      }
-    );
+      if (
+        extension.toLowerCase() !== "jpg" &&
+        extension.toLowerCase() !== "png"
+      )
+        next(new ValidationError("file must be '.jpg' or '.png'"));
 
-    return petWithAvatar;
+      // await fs.unlinkSync(file.path);
+
+      const { path, fieldname } = file;
+      console.log(path);
+      const { url: avatarUrl } = await petPhotoUpload(
+        path,
+        fieldname,
+        newPet._id
+      );
+
+      const petWithAvatar = await Pet.findOneAndUpdate(
+        newPet._id,
+        {
+          avatarURL: avatarUrl,
+        },
+        {
+          new: true,
+        }
+      );
+
+      return petWithAvatar;
+    }
+    return newPet;
   } catch (error) {
     throw new ValidationError("Load file error");
   }

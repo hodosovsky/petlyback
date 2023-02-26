@@ -90,7 +90,7 @@ module.exports = {
     const schema = Joi.object({
       email: Joi.string().email(),
       password: Joi.string().min(7).max(32),
-      name: Joi.string().min(4),
+      name: Joi.string().min(1),
       phone: Joi.string(),
       city: Joi.string(),
     });

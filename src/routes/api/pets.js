@@ -10,7 +10,7 @@ router.post(
   "/",
   authMiddleware,
   uploadMiddleware.single("avatar"),
-  validatinFileType,
+
   asyncWrapper(addPetController)
 );
 

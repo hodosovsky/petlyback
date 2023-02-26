@@ -19,7 +19,10 @@ const petSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "pet",
     },
-    avatarURL: String,
+    avatarURL: {
+      type: String,
+      default: null,
+    },
   },
   { versionKey: false, timestamps: true }
 );

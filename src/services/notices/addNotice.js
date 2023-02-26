@@ -10,8 +10,9 @@ const addNotice = async (data, file, owner) => {
   const newNotice = await Notices.create({
     ...data,
     avatar: url,
-    owner: owner,
+    owner,
   });
+
   return newNotice;
 };
 
