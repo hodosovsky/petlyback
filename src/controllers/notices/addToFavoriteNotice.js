@@ -1,27 +1,26 @@
-const { User } = require('../../db/userModel');
-const { ValidationError } = require("../../helpers/errors");
+
+const { RequestError } = require("../../helpers/RequestError");
+const { Notices } = require("../../db/noticesModel");
+const {User} = require("../../db/userModel");
+
 
 const addToFavoriteNotice = async (req, res) => {
-  const { _id, favorite } = req.user;
-  const { id } = req.params;
+  const { _id: userId } = req.user;
+  const { id: noticeId } = req.params;
+ 
 
-  if (favorite.includes(id)) {
-    throw new ValidationError('this notice is already in favorites');
+  const notice = await Notices.findById(noticeId);
+  if (!notice) {
+    throw RequestError(404, "Notice not found");
   }
 
-  const user = await User.findByIdAndUpdate(
-    _id,
-    { $push: { favorites: id } },
-    { new: true }
-  );
-  if (!user) {
-    throw new ValidationError('there is no such user');
+  const { favorites } = await User.findById(userId);
+  if (favorites.includes(noticeId)) {
+    throw RequestError(400, "Notice is already in Wishlist");
   }
-
-  res.status(201).json({
-    favorites: user.favorite,
-    message: 'notice add to favorite',
-  });
+  // 
+  await User.findByIdAndUpdate(userId, { $push: { favorites: noticeId } }, {new: true})
+  return res.status(200).json({"message": "Notice added to wishlist", "notice": notice});
 };
 
-module.exports = {addToFavoriteNotice} ;
+module.exports = {addToFavoriteNotice};
