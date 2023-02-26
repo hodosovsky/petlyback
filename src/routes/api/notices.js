@@ -34,6 +34,15 @@ const { asyncWrapper } = require("../../helpers/apiHelpers");
 const router = express.Router();
 // router.use(authMiddleware)
 
+// favoriteNotices
+router.get("/favorite", authMiddleware, asyncWrapper(getUserFavorites));
+router.patch(
+  "/favorite/:noticeId",
+  authMiddleware,
+  isValidId,
+  asyncWrapper(addToFavoriteNotice)
+);
+
 router.get(
   "/",
   // schemas.noticeValidateSchema,
@@ -51,14 +60,7 @@ router.post(
 );
 
 
-// favoriteNotices
-router.get("/favorite", authMiddleware, asyncWrapper(getUserFavorites));
-router.post(
-  "/favorite/:noticeId",
-  authMiddleware,
-  isValidId,
-  asyncWrapper(addToFavoriteNotice)
-);
+
 
 
 module.exports = router;

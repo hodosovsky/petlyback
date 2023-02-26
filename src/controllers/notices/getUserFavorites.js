@@ -1,3 +1,4 @@
+const { Notices } = require("../../db/noticesModel");
 const {User} = require("../../db/userModel");
 const { ValidationError } = require("../../helpers/errors");
 const {getCurrentUser} = require("../../services/user/current");
@@ -6,14 +7,13 @@ const getUserFavorites = async (req, res) => {
     const [, token] = req.headers.authorization.split(" ");
   const { _id } = await getCurrentUser(token);
 
-  const currentUser = await User.findOne({ _id }).select("favorites");
+  const currentUser = await User.findOne({ _id });
 
-  const result = currentUser;
-
-  if (!result) {
+  if (!currentUser) {
     throw ValidationError(404);
   }
-  res.status(200).json(result);
+  const notices = await Notices.find ({_id: {$in : currentUser.favorites}});
+  res.status(200).json(notices);
 };
 
 module.exports = { getUserFavorites };
