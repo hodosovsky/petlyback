@@ -1,6 +1,6 @@
 const {User} = require("../../db/userModel");
 const { ValidationError } = require("../../helpers/errors");
-const {getCurrentUser} = require("../../services/auth/current");
+const {getCurrentUser} = require("../../services/user/current");
 
 const getUserFavorites = async (req, res) => {
     const [, token] = req.headers.authorization.split(" ");
