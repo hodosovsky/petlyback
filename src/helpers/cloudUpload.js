@@ -16,7 +16,7 @@ const cloudUpload = async (file, folder, filename) => {
   const options = {
     public_id: cloudFilePath,
     overwrite: true,
-    transformation: [{ width: 250, height: 250 }],
+    transformation: [{ width: 600, height: 600, crop: "fit" }],
   }
 
   try {
