@@ -1,8 +1,5 @@
 const fs = require("fs");
 const cloudinary = require("cloudinary").v2;
-const dotenv = require("dotenv");
-
-dotenv.config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -16,7 +13,7 @@ const cloudUpload = async (file, folder, filename) => {
   const options = {
     public_id: cloudFilePath,
     overwrite: true,
-    // transformation: [{ width: 600, height: 600, crop: "fit" }],
+    transformation: [{ width: 250, height: 250, crop: "fit" }],
   };
 
   try {

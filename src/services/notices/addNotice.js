@@ -4,10 +4,10 @@ const { cloudUpload } = require("../../helpers/cloudUpload");
 
 const addNotice = async (data, file, owner) => {
   let newUrl = null;
-  
+
   if (file) {
     const { path, fieldname } = file;
-    const { url } = await cloudUpload(path, fieldname, owner);
+    const { url } = await petPhotoUpload(path, fieldname, owner);
     newUrl = url;
   }
 
