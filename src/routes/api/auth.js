@@ -8,6 +8,7 @@ const {
   changeAvatarController,
 } = require("../../controllers/user/changeAvatar");
 const { patchUserController } = require("../../controllers/user/patchUser");
+const {userProfileController} = require('../../controllers/user/userProfile')
 
 const { asyncWrapper } = require("../../helpers/apiHelpers");
 
@@ -52,5 +53,6 @@ router.get(
   passport.authenticate("google", { session: false }),
   googleAuthController
 );
+router.get("/profile", authMiddleware, asyncWrapper(userProfileController));
 
 module.exports = router;

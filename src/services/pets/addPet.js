@@ -16,47 +16,44 @@ const addPet = async (data, file, owner) => {
     owner,
   });
 
-  const user = await User.findById(owner);
+  // const user = await User.findById(owner);
+  await User.findByIdAndUpdate(
+    owner,
+    { $push: { userPets: newPet._id } },
+    { new: true }
+  );
+  // user.userPets.push(newPet._id);
+  // await user.save();
 
-  user.userPets.push(newPet._id);
-  await user.save();
+  if (file) {
+    const [, extension] = file.path?.split(".");
 
-  try {
-    if (file) {
-      const [, extension] = file.path?.split(".");
+    if (extension.toLowerCase() !== "jpg" && extension.toLowerCase() !== "png")
+      next(new ValidationError("file must be '.jpg' or '.png'"));
 
-      if (
-        extension.toLowerCase() !== "jpg" &&
-        extension.toLowerCase() !== "png"
-      )
-        next(new ValidationError("file must be '.jpg' or '.png'"));
+    // await fs.unlinkSync(file.path);
 
-      // await fs.unlinkSync(file.path);
+    const { path, fieldname } = file;
 
-      const { path, fieldname } = file;
-      console.log(path);
-      const { url: avatarUrl } = await petPhotoUpload(
-        path,
-        fieldname,
-        newPet._id
-      );
+    const { url: avatarUrl } = await petPhotoUpload(
+      path,
+      fieldname,
+      newPet._id
+    );
 
-      const petWithAvatar = await Pet.findOneAndUpdate(
-        newPet._id,
-        {
-          avatarURL: avatarUrl,
-        },
-        {
-          new: true,
-        }
-      );
+    const petWithAvatar = await Pet.findOneAndUpdate(
+      newPet._id,
+      {
+        avatarURL: avatarUrl,
+      },
+      {
+        new: true,
+      }
+    );
 
-      return petWithAvatar;
-    }
-    return newPet;
-  } catch (error) {
-    throw new ValidationError("Load file error");
+    return petWithAvatar;
   }
+  return newPet;
 };
 
 module.exports = { addPet };

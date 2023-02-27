@@ -17,7 +17,16 @@ const deletePetById = async (petId, ownerId) => {
     owner: ownerId,
   });
 
+  //  await User.findByIdAndUpdate(
+  //   ownerId,
+  //   { $pull: { userPets: petId } },
+  //   { new: true }
+  // );
+
   const user = await User.findById(ownerId);
+
+  if (!user) throw new WrongParametersError("User not found");
+
   const idx = user.userPets.indexOf(petId);
   user.userPets.splice(idx, 1);
   await user.save();
