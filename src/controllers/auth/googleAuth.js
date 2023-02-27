@@ -1,10 +1,10 @@
-const { FRONTEND_URL } = process.env
-const { createToken } = require('../../helpers/apiHelpers')
+const { FRONTEND_URL } = process.env;
+const { createToken } = require("../../helpers/apiHelpers");
 
 const googleAuthController = async (req, res) => {
-  const token = await createToken(req.user)
+  const token = await createToken(req.user);
 
-  res.redirect(`${FRONTEND_URL}?token=${token}`)
-}
+  res.redirect(`${FRONTEND_URL}/user?token=${token}`);
+};
 
-module.exports = { googleAuthController }
+module.exports = { googleAuthController };
