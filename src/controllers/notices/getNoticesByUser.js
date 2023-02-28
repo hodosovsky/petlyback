@@ -4,8 +4,10 @@ const {
 
 const getNoticesByUserController = async (req, res) => {
   const { _id } = req.user
-  const data = await getNoticesByUserService(_id)
-  res.json({ message: data })
+  const { search } = req.query
+
+  const data = await getNoticesByUserService(_id, search)
+  res.json(data)
 }
 
 module.exports = { getNoticesByUserController }
