@@ -1,9 +1,10 @@
-const { addNotice } = require("../../services/notices/addNotice");
+const { addNotice } = require('../../services/notices/addNotice')
 
 const addNoticeController = async (req, res) => {
-  const { _id: ownerId } = req.user;
-  const newNotice = await addNotice(req.body, req.file, ownerId);
-  res.status(201).json(newNotice);
-};
+  const { _id: ownerId } = req.user
+  console.log('ownerId:', ownerId)
+  const newNotice = await addNotice(req.body, req.file, ownerId)
+  res.status(201).json(newNotice)
+}
 
-module.exports = { addNoticeController };
+module.exports = { addNoticeController }
