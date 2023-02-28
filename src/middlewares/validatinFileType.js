@@ -2,7 +2,6 @@ const { ValidationError } = require('../helpers/errors')
 const fs = require('fs')
 
 const validatinFileType = async (req, res, next) => {
-  console.log(req.body)
   try {
     const { path: temporaryName } = req.file
     const [, extension] = temporaryName?.split('.')
