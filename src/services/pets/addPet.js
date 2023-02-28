@@ -22,7 +22,7 @@ const addPet = async (data, file, owner) => {
 
   await User.findByIdAndUpdate(
     owner,
-    { $push: { userPets: newPet._id } },
+    { $push: { userPets: newPet._id.toString() } },
     { new: true }
   );
   return newPet;
