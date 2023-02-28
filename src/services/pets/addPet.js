@@ -19,6 +19,12 @@ const addPet = async (data, file, owner) => {
     avatarURL: newUrl,
     owner,
   });
+
+  await User.findByIdAndUpdate(
+    owner,
+    { $push: { userPets: newPet._id } },
+    { new: true }
+  );
   return newPet;
 };
 
