@@ -23,15 +23,13 @@ module.exports = {
     next();
   },
 
-  patchContactsValidation: (req, res, next) => {
+  petValidation: (req, res, next) => {
     const schema = Joi.object({
       name: Joi.string().alphanum().min(1),
-      email: Joi.string().email({
-        minDomainSegments: 2,
-        tlds: { allow: ["com", "net"] },
-      }),
-      phone: Joi.number().integer(),
-      favorite: Joi.boolean(),
+      birthday: Joi.string(),
+      breed: Joi.string(),
+      comments: Joi.string(),
+      avatarURL: Joi.string(),
     });
     const validationResult = schema.validate(req.body);
 
