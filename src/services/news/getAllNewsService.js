@@ -9,7 +9,7 @@ const getAllNewsService = async (search) => {
     return data;
   }
 
-  const data = await News.find({});
+  const data = await News.find({}).sort({ date: -1 });
   return data;
 };
 

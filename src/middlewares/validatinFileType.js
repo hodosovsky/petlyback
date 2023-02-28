@@ -5,8 +5,6 @@ const validatinFileType = async (req, res, next) => {
   console.log(req.body)
   try {
     const { path: temporaryName } = req.file
-    console.log('temporaryName:', temporaryName)
-
     const [, extension] = temporaryName?.split('.')
 
     if (
@@ -16,7 +14,6 @@ const validatinFileType = async (req, res, next) => {
       await fs.unlinkSync(temporaryName)
       next(new ValidationError("file must be '.jpg' or '.png'"))
     }
-
     next()
   } catch (error) {
     next(new ValidationError("file must be '.jpg' or '.png"))

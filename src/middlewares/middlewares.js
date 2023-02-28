@@ -4,7 +4,7 @@ const { ValidationError } = require("../helpers/errors");
 module.exports = {
   addContactsValidation: (req, res, next) => {
     const schema = Joi.object({
-      name: Joi.string().alphanum().min(3).max(30).required(),
+      name: Joi.string().alphanum().min(1).max(30).required(),
       email: Joi.string()
         .email({
           minDomainSegments: 2,
@@ -25,7 +25,7 @@ module.exports = {
 
   patchContactsValidation: (req, res, next) => {
     const schema = Joi.object({
-      name: Joi.string().alphanum().min(3).max(30),
+      name: Joi.string().alphanum().min(1),
       email: Joi.string().email({
         minDomainSegments: 2,
         tlds: { allow: ["com", "net"] },
@@ -59,7 +59,7 @@ module.exports = {
     const schema = Joi.object({
       email: Joi.string().email().required(),
       password: Joi.string().min(7).max(32).required(),
-      name: Joi.string().min(4).required(),
+      name: Joi.string().min(1).required(),
       phone: Joi.string().required(),
       city: Joi.string().required(),
     });
