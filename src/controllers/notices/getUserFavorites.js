@@ -12,10 +12,14 @@ const getUserFavorites = async (req, res) => {
   if (!currentUser) {
     throw ValidationError(404);
   }
-  let { page, limit = 20, favorite } = req.query;
+  let { page = 1, limit = 8 } = req.query;
 
-  limit = +limit > 20 ? 20 : +limit;
+  limit = +limit > 8 ? 8 : +limit;
   page = +page;
+
+  const allNotices = await Notices.find({
+    _id: { $in: currentUser.favorites },
+  });
 
   const notices = await Notices.find({
     _id: { $in: currentUser.favorites },
@@ -23,7 +27,18 @@ const getUserFavorites = async (req, res) => {
     .skip((page - 1) * limit)
     .limit(limit)
     .sort({ updatedAt: -1 });
-  res.status(200).json(notices);
+  res.status(200).json({
+    notices,
+    perPage: limit,
+    total: allNotices.length,
+    noticesLeft:
+      allNotices.length - page * limit > 0
+        ? allNotices.length - page * limit
+        : 0,
+    pageCount: Math.ceil(allNotices.length / +limit),
+    currentPage: page,
+    noticesOnPage: notices.length,
+  });
 };
 
 module.exports = { getUserFavorites };

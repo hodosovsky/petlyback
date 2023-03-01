@@ -1,12 +1,12 @@
 const {
   getAllCategoriesService,
-} = require('../../services/notices/getAllCategories')
+} = require("../../services/notices/getAllCategories");
 
 const getAllCategoriesController = async (req, res) => {
-  const { search } = req.query
+  const { search } = req.query;
 
-  const data = await getAllCategoriesService(search)
-  res.json(data)
-}
+  const data = await getAllCategoriesService(search);
+  res.json(data);
+};
 
-module.exports = { getAllCategoriesController }
+module.exports = { getAllCategoriesController };
