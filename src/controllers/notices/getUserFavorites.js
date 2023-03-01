@@ -12,9 +12,17 @@ const getUserFavorites = async (req, res) => {
   if (!currentUser) {
     throw ValidationError(404);
   }
+  let { page, limit = 20, favorite } = req.query;
+
+  limit = +limit > 20 ? 20 : +limit;
+  page = +page;
+
   const notices = await Notices.find({
     _id: { $in: currentUser.favorites },
-  }).sort({ updatedAt: -1 });
+  })
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .sort({ updatedAt: -1 });
   res.status(200).json(notices);
 };
 
