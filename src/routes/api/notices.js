@@ -39,6 +39,12 @@ const {
 const {
   deleteNoticeController,
 } = require('../../controllers/notices/removeUserNotice')
+const {
+  patchNoticeController,
+} = require('../../controllers/notices/patchNotice')
+const {
+  patchNoticeAvatarController,
+} = require('../../controllers/notices/patchNoticeAvatar')
 
 const router = express.Router()
 // router.use(authMiddleware)
@@ -58,6 +64,21 @@ router.patch(
   authMiddleware,
   isValidId,
   asyncWrapper(addToFavoriteNotice)
+)
+// Patch Notice
+router.patch(
+  '/:noticesId',
+  authMiddleware,
+  validationBody(schemas.noticeAddValidateSchema),
+  asyncWrapper(patchNoticeController)
+)
+// Patch Notice Avatar
+router.patch(
+  '/avatar/:noticesId',
+  authMiddleware,
+  uploadMiddleware.single('avatar'),
+  validatinFileType,
+  asyncWrapper(patchNoticeAvatarController)
 )
 
 router.get(
