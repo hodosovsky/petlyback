@@ -29,7 +29,7 @@ const getUserFavorites = async (req, res) => {
     })
       .skip((page - 1) * limit)
       .limit(limit)
-      .sort({ date: -1 })
+      .sort({ updatedAt: -1 })
       .select(["-createdAt", "-updatedAt"]);
 
     res.status(200).json({

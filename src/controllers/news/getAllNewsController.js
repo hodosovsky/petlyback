@@ -1,10 +1,26 @@
-const { getAllNewsService } = require('../../services/news/getAllNewsService')
+const { getAllNewsService } = require("../../services/news/getAllNewsService");
 
 const getAllNews = async (req, res, next) => {
-  const { search } = req.query
+  const { search, page = 1, limit = 8 } = req.query;
 
-  const data = await getAllNewsService(search)
-  res.json(data)
-}
+  const {
+    data,
+    perPage,
+    total,
+    noticesLeft,
+    pageCount,
+    currentPage,
+    noticesOnPage,
+  } = await getAllNewsService(search, page, limit);
+  res.json({
+    data,
+    perPage,
+    total,
+    noticesLeft,
+    pageCount,
+    currentPage,
+    noticesOnPage,
+  });
+};
 
-module.exports = getAllNews
+module.exports = getAllNews;

@@ -92,7 +92,10 @@ module.exports = {
 
   changeUserValidation: (req, res, next) => {
     const schema = Joi.object({
-      email: Joi.string().email(),
+      email: Joi.string()
+        .email({ tlds: { allow: false } })
+        .min(10)
+        .max(63),
       password: Joi.string().min(7).max(32),
       name: Joi.string().min(1),
       phone: Joi.string(),

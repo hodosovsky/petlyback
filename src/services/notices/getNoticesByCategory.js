@@ -19,7 +19,7 @@ const getNoticesByCategoryService = async (category, search, page, limit) => {
       })
         .skip((page - 1) * limit)
         .limit(limit)
-        .sort({ date: -1 })
+        .sort({ updatedAt: -1 })
         .select(["-createdAt", "-updatedAt"]);
 
       return {
@@ -37,7 +37,7 @@ const getNoticesByCategoryService = async (category, search, page, limit) => {
     const data = await Notices.find({ categoryName: category })
       .skip((page - 1) * limit)
       .limit(limit)
-      .sort({ date: -1 })
+      .sort({ updatedAt: -1 })
       .select(["-createdAt", "-updatedAt"]);
     return {
       data,

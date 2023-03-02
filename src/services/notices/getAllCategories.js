@@ -14,7 +14,7 @@ const getAllCategoriesService = async (search, page, limit) => {
     })
       .skip((page - 1) * limit)
       .limit(limit)
-      .sort({ date: -1 })
+      .sort({ updatedAt: -1 })
       .select(["-createdAt", "-updatedAt"]);
 
     return {
@@ -32,7 +32,7 @@ const getAllCategoriesService = async (search, page, limit) => {
   const data = await Notices.find({})
     .skip((page - 1) * limit)
     .limit(limit)
-    .sort({ date: -1 })
+    .sort({ updatedAt: -1 })
     .select(["-createdAt", "-updatedAt"]);
   return {
     data,

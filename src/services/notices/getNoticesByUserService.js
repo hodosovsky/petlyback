@@ -14,7 +14,7 @@ const getNoticesByUserService = async (id, search, page, limit) => {
     })
       .skip((page - 1) * limit)
       .limit(limit)
-      .sort({ date: -1 })
+      .sort({ updatedAt: -1 })
       .select(["-createdAt", "-updatedAt"]);
     return {
       data,
@@ -31,7 +31,9 @@ const getNoticesByUserService = async (id, search, page, limit) => {
   const data = await Notices.find({ owner: id })
     .skip((page - 1) * limit)
     .limit(limit)
-    .sort({ date: -1 })
+    .sort({
+      updatedAt: -1,
+    })
     .select(["-createdAt", "-updatedAt"]);
 
   return {
