@@ -1,13 +1,29 @@
 const {
   getNoticesByUserService,
-} = require('../../services/notices/getNoticesByUserService')
+} = require("../../services/notices/getNoticesByUserService");
 
 const getNoticesByUserController = async (req, res) => {
-  const { _id } = req.user
-  const { search } = req.query
+  const { _id } = req.user;
+  let { search, page = 1, limit = 8 } = req.query;
 
-  const data = await getNoticesByUserService(_id, search)
-  res.json(data)
-}
+  const {
+    data,
+    perPage,
+    total,
+    noticesLeft,
+    pageCount,
+    currentPage,
+    noticesOnPage,
+  } = await getNoticesByUserService(_id, search, page, limit);
+  res.json({
+    data,
+    perPage,
+    total,
+    noticesLeft,
+    pageCount,
+    currentPage,
+    noticesOnPage,
+  });
+};
 
-module.exports = { getNoticesByUserController }
+module.exports = { getNoticesByUserController };

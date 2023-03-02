@@ -3,10 +3,27 @@ const {
 } = require("../../services/notices/getAllCategories");
 
 const getAllCategoriesController = async (req, res) => {
-  const { search } = req.query;
+  let { search, page = 1, limit = 8 } = req.query;
 
-  const data = await getAllCategoriesService(search);
-  res.json(data);
+  const {
+    data,
+    perPage,
+    total,
+    noticesLeft,
+    pageCount,
+    currentPage,
+    noticesOnPage,
+  } = await getAllCategoriesService(search, page, limit);
+
+  res.json({
+    data,
+    perPage,
+    total,
+    noticesLeft,
+    pageCount,
+    currentPage,
+    noticesOnPage,
+  });
 };
 
 module.exports = { getAllCategoriesController };
