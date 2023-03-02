@@ -100,6 +100,7 @@ module.exports = {
       name: Joi.string().min(1),
       phone: Joi.string(),
       city: Joi.string(),
+      birthday: Joi.string(),
     });
     const validationResult = schema.validate(req.body);
 
