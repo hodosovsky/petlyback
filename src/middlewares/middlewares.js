@@ -55,10 +55,16 @@ module.exports = {
 
   userAuthValidation: (req, res, next) => {
     const schema = Joi.object({
-      email: Joi.string().email().required(),
+      email: Joi.string()
+        .email({ tlds: { allow: false } })
+        .min(10)
+        .max(63)
+        .required(),
       password: Joi.string().min(7).max(32).required(),
-      name: Joi.string().min(1).required(),
-      phone: Joi.string().required(),
+      name: Joi.string().min(1).max(16).required(),
+      phone: Joi.string()
+        .pattern(new RegExp(/^\+?3?8?(0\d{9})$/))
+        .required(),
       city: Joi.string().required(),
     });
     const validationResult = schema.validate(req.body);
@@ -91,7 +97,6 @@ module.exports = {
       name: Joi.string().min(1),
       phone: Joi.string(),
       city: Joi.string(),
-      birthday: Joi.string(),
     });
     const validationResult = schema.validate(req.body);
 
