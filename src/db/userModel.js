@@ -22,9 +22,9 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     birthday: {
-      type: mongoose.Schema.Types.Date,
+      type: String,
       required: true,
-      default: Date.now(),
+      default: null,
     },
     city: {
       type: String,
