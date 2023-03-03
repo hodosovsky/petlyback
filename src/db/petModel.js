@@ -5,6 +5,8 @@ const petSchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      minLength: 2,
+      maxLength: 16,
       default: null,
     },
     birthday: {
@@ -13,10 +15,14 @@ const petSchema = new mongoose.Schema(
     },
     breed: {
       type: String,
+      minLength: 2,
+      maxLength: 16,
       default: null,
     },
     comments: {
       type: String,
+      minLength: 8,
+      maxLength: 120,
       default: null,
     },
     owner: {

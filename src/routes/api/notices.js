@@ -1,100 +1,100 @@
-const express = require('express')
+const express = require("express");
 
-const { addNoticeController } = require('../../controllers/notices')
+const { addNoticeController } = require("../../controllers/notices");
 
 const {
   getNoticesByCategoryController,
-} = require('../../controllers/notices/getNoticesByCategory')
+} = require("../../controllers/notices/getNoticesByCategory");
 const {
   getAllCategoriesController,
-} = require('../../controllers/notices/getAllCategories')
+} = require("../../controllers/notices/getAllCategories");
 
 const {
   getUserFavorites,
-} = require('../../controllers/notices/getUserFavorites')
+} = require("../../controllers/notices/getUserFavorites");
 const {
   addToFavoriteNotice,
-} = require('../../controllers/notices/addToFavoriteNotice')
+} = require("../../controllers/notices/addToFavoriteNotice");
 
-const { schemas } = require('./../../db/noticesModel')
+const { schemas } = require("./../../db/noticesModel");
 
 const {
   addContactsValidation,
   patchContactsValidation,
   patchFavoriteContactsValidation,
-} = require('../../middlewares/middlewares')
+} = require("../../middlewares/middlewares");
 
-const { isValidId } = require('../../middlewares/isValidId')
+const { isValidId } = require("../../middlewares/isValidId");
 const {
   authMiddleware,
   validationBody,
   validatinFileType,
-} = require('../../middlewares/index')
-const { uploadMiddleware } = require('../../helpers/multerConfig')
+} = require("../../middlewares/index");
+const { uploadMiddleware } = require("../../helpers/multerConfig");
 
-const { asyncWrapper } = require('../../helpers/apiHelpers')
+const { asyncWrapper } = require("../../helpers/apiHelpers");
 const {
   getNoticesByUserController,
-} = require('../../controllers/notices/getNoticesByUser')
+} = require("../../controllers/notices/getNoticesByUser");
 const {
   deleteNoticeController,
-} = require('../../controllers/notices/removeUserNotice')
+} = require("../../controllers/notices/removeUserNotice");
 const {
   patchNoticeController,
-} = require('../../controllers/notices/patchNotice')
+} = require("../../controllers/notices/patchNotice");
 const {
   patchNoticeAvatarController,
-} = require('../../controllers/notices/patchNoticeAvatar')
+} = require("../../controllers/notices/patchNoticeAvatar");
 
-const router = express.Router()
+const router = express.Router();
 // router.use(authMiddleware)
 // Get User notices
-router.get('/my', authMiddleware, asyncWrapper(getNoticesByUserController))
+router.get("/my", authMiddleware, asyncWrapper(getNoticesByUserController));
 // Delete User notices
 router.delete(
-  '/:noticeId',
+  "/:noticeId",
   authMiddleware,
   asyncWrapper(deleteNoticeController)
-)
+);
 
 // favoriteNotices
-router.get('/favorite', authMiddleware, asyncWrapper(getUserFavorites))
+router.get("/favorite", authMiddleware, asyncWrapper(getUserFavorites));
 router.patch(
-  '/favorite/:noticeId',
+  "/favorite/:noticeId",
   authMiddleware,
   isValidId,
   asyncWrapper(addToFavoriteNotice)
-)
+);
 // Patch Notice
 router.patch(
-  '/:noticesId',
+  "/:noticesId",
   authMiddleware,
   validationBody(schemas.noticeAddValidateSchema),
   asyncWrapper(patchNoticeController)
-)
+);
 // Patch Notice Avatar
 router.patch(
-  '/avatar/:noticesId',
+  "/avatars/:noticesId",
   authMiddleware,
-  uploadMiddleware.single('avatar'),
+  uploadMiddleware.single("avatar"),
   validatinFileType,
   asyncWrapper(patchNoticeAvatarController)
-)
+);
 
 router.get(
-  '/',
+  "/",
   // schemas.noticeValidateSchema,
   asyncWrapper(getAllCategoriesController)
-)
-router.get('/:noticesId', asyncWrapper(getNoticesByCategoryController))
+);
+router.get("/:noticesId", asyncWrapper(getNoticesByCategoryController));
 
 router.post(
-  '/',
+  "/",
   authMiddleware,
-  uploadMiddleware.single('avatar'),
+  uploadMiddleware.single("avatar"),
   validatinFileType,
   validationBody(schemas.noticeAddValidateSchema),
   asyncWrapper(addNoticeController)
-)
+);
 
-module.exports = router
+module.exports = router;
