@@ -19,7 +19,7 @@ const userProfile = async (id) => {
   });
 
   if (!pets.length) console.log(pets);
-  return { findedUser, pets: pets.length ? pets : null };
+  return { findedUser, pets: pets.length ? pets : [] };
 };
 
 module.exports = { userProfile };
