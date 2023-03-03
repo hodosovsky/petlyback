@@ -30,11 +30,11 @@ const getAllNewsService = async (search, page, limit) => {
       data,
       perPage: limit,
       total: allData.length,
-      noticesLeft:
+      newsLeft:
         allData.length - page * limit > 0 ? allData.length - page * limit : 0,
       pageCount: Math.ceil(allData.length / +limit),
       currentPage: page,
-      noticesOnPage: data.length,
+      newsOnPage: data.length,
     };
   }
   const allData = await News.find({});
