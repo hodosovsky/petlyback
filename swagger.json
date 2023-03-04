@@ -354,6 +354,52 @@
         ]
       }
     },
+    "/users/email": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Change user's email",
+        "operationId": "patchUserEmail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/users_email_body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User's email successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_401_2"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
     "/pets": {
       "post": {
         "tags": [
@@ -510,7 +556,7 @@
         ]
       }
     },
-    "/pets/avatar/{petID}": {
+    "/pets/avatars/{petID}": {
       "patch": {
         "tags": [
           "Pets"
@@ -836,6 +882,134 @@
             "Bearer": []
           }
         ]
+      },
+      "patch": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Change/update user's notices info",
+        "description": "Authorized users only",
+        "operationId": "patchUserNoticeById",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "Notice Id to change/update",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/notices_noticeId_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid noticeId"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Notice not found"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/notices/avatars/{noticeId}": {
+      "patch": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Change/update user's notice avatar",
+        "operationId": "patchUserNoticeAvatar",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "Notice Id to change/update avatar",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "image/png/jpg": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notice avatar successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_6"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid noticesID"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Notice not found"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/notices/favorite": {
@@ -855,7 +1029,7 @@
             "explode": true,
             "schema": {
               "type": "string",
-              "description": "User's search parameters'",
+              "description": "User's search parameters",
               "example": "dog"
             }
           },
@@ -1554,6 +1728,29 @@
           }
         }
       },
+      "users_email_body": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "newuser@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "1234567"
+          }
+        }
+      },
+      "inline_response_401_2": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Email not provided / wrong password"
+          }
+        }
+      },
       "pets_body": {
         "type": "object",
         "properties": {
@@ -1640,6 +1837,52 @@
           "message": {
             "type": "string",
             "example": "notice deleted"
+          }
+        }
+      },
+      "notices_noticeId_body": {
+        "type": "object",
+        "properties": {
+          "categoryName": {
+            "type": "string",
+            "enum": [
+              "sell",
+              "lost-found",
+              "in-good-hands"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "birthday": {
+            "type": "string"
+          },
+          "breed": {
+            "type": "string"
+          },
+          "sex": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
+      },
+      "inline_response_200_6": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "notice avatar updated"
           }
         }
       },
