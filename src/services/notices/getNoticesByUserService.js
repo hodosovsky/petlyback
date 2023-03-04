@@ -3,6 +3,7 @@ const { Notices } = require("../../db/noticesModel");
 const getNoticesByUserService = async (id, search, page, limit) => {
   limit = +limit > 8 ? 8 : +limit;
   page = +page;
+
   if (search) {
     const allData = await Notices.find({
       owner: id,
@@ -27,6 +28,7 @@ const getNoticesByUserService = async (id, search, page, limit) => {
       noticesOnPage: data.length,
     };
   }
+
   const allData = await Notices.find({ owner: id });
   const data = await Notices.find({ owner: id })
     .skip((page - 1) * limit)

@@ -5,14 +5,12 @@ const getNoticesByCategoryService = async (category, search, page, limit) => {
   limit = +limit > 8 ? 8 : +limit;
   page = +page;
   if (["sell", "lost-found", "in-good-hands"].includes(category)) {
-    // const data = await Notices.find({ categoryName: category });
-    // return data;
     if (search) {
       const allData = await Notices.find({
         categoryName: category,
         title: { $regex: search, $options: "i" },
       });
-      console.log(search);
+
       const data = await Notices.find({
         categoryName: category,
         title: { $regex: search, $options: "i" },
@@ -33,6 +31,7 @@ const getNoticesByCategoryService = async (category, search, page, limit) => {
         noticesOnPage: data.length,
       };
     }
+
     const allData = await Notices.find({ categoryName: category });
     const data = await Notices.find({ categoryName: category })
       .skip((page - 1) * limit)

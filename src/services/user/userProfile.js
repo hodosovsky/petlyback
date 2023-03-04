@@ -1,7 +1,6 @@
 const { User } = require("../../db/userModel");
 const { Pet } = require("../../db/petModel");
 const { WrongParametersError } = require("../../helpers/errors");
-const jsonwebtoken = require("jsonwebtoken");
 
 const userProfile = async (id) => {
   const findedUser = await User.findByIdAndUpdate(id).select([

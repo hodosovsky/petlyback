@@ -1,8 +1,6 @@
 const { Pet } = require("../../db/petModel");
 const { petPhotoUpload } = require("../../helpers/petPhotoUpload");
 
-const fs = require("fs").promises;
-
 const changePetAvatar = async (file, id, owner) => {
   let newUrl = null;
 

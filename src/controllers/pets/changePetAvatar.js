@@ -1,4 +1,3 @@
-const { changeAvatar } = require("../../services/user/changeAvatar");
 const { changePetAvatar } = require("../../services/pets/changePetAvatar");
 
 const changeAvatarController = async (req, res) => {

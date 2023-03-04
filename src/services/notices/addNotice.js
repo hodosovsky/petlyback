@@ -1,7 +1,6 @@
 const { Notices } = require("../../db/noticesModel");
 const { User } = require("../../db/userModel");
 const { petPhotoUpload } = require("../../helpers/petPhotoUpload");
-const { cloudUpload } = require("../../helpers/cloudUpload");
 
 const addNotice = async (data, file, owner) => {
   let newUrl = null;

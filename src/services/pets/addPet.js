@@ -1,8 +1,5 @@
-const fs = require("fs").promises;
-// const { use } = require("passport");
 const { Pet } = require("../../db/petModel");
 const { User } = require("../../db/userModel");
-const { ValidationError } = require("../../helpers/errors");
 const { petPhotoUpload } = require("../../helpers/petPhotoUpload");
 
 const addPet = async (data, file, owner) => {

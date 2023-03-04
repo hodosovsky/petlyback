@@ -1,5 +1,4 @@
 const express = require('express')
-
 const getAllNews = require('../../controllers/news/getAllNewsController')
 const { asyncWrapper } = require('../../helpers/apiHelpers')
 

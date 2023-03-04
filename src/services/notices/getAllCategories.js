@@ -28,6 +28,7 @@ const getAllCategoriesService = async (search, page, limit) => {
       noticesOnPage: data.length,
     };
   }
+
   const allData = await Notices.find({});
   const data = await Notices.find({})
     .skip((page - 1) * limit)
