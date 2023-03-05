@@ -28,7 +28,7 @@ module.exports = {
       password: Joi.string().min(7).max(32).required(),
       name: Joi.string().min(1).max(16).required(),
       phone: Joi.string()
-        .pattern(new RegExp(/^\+?3?8?(0\d{9})$/))
+        .pattern(/^\+?3?8?(0\d{9})$/)
         .required(),
       city: Joi.string().required(),
     });
