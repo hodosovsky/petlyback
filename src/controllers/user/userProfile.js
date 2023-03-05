@@ -1,9 +1,35 @@
 const { userProfile } = require("../../services/user/userProfile");
 
 const userProfileController = async (req, res) => {
-  const { findedUser, pets } = await userProfile(req.user._id);
+  const {
+    _id,
+    name,
+    email,
+    phone,
+    birthday,
+    city,
+    favorites,
+    userPets,
+    avatarURL,
+  } = req.user;
 
-  res.status(200).json({ user: findedUser, pets });
+  const { pets } = await userProfile(_id);
+  console.log(req.user);
+
+  res.status(200).json({
+    user: {
+      _id,
+      name,
+      email,
+      phone,
+      birthday,
+      city,
+      favorites,
+      userPets,
+      avatarURL,
+    },
+    pets,
+  });
 };
 
 module.exports = { userProfileController };

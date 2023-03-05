@@ -1,8 +1,7 @@
 const { Notices } = require("../../db/noticesModel");
-const { User } = require("../../db/userModel");
 const { petPhotoUpload } = require("../../helpers/petPhotoUpload");
 
-const addNotice = async (data, file, owner) => {
+const addNotice = async (data, file, owner, email, phone) => {
   let newUrl = null;
 
   if (file) {
@@ -10,7 +9,6 @@ const addNotice = async (data, file, owner) => {
     const { url } = await petPhotoUpload(path, fieldname, owner);
     newUrl = url;
   }
-  const { email, phone } = await User.findById(owner);
 
   const newNotice = await Notices.create({
     ...data,

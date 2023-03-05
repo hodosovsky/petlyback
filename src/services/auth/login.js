@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 
 const login = async ({ email, password }) => {
   const user = await User.findOne({ email });
+
   if (!user) throw new NotAuthorizedError(`No user with email ${email} found`);
 
   if (!(await bcrypt.compare(password, user.password)))

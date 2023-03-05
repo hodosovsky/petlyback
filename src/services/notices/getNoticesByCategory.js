@@ -4,54 +4,37 @@ const { WrongParametersError } = require("../../helpers/errors");
 const getNoticesByCategoryService = async (category, search, page, limit) => {
   limit = +limit > 8 ? 8 : +limit;
   page = +page;
+
+  const searchObj = {};
+
   if (["sell", "lost-found", "in-good-hands"].includes(category)) {
-    if (search) {
-      const allData = await Notices.find({
-        categoryName: category,
-        title: { $regex: search, $options: "i" },
-      });
+    searchObj.categoryName = category;
+    if (search) searchObj.title = { $regex: search, $options: "i" };
 
-      const data = await Notices.find({
-        categoryName: category,
-        title: { $regex: search, $options: "i" },
-      })
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .sort({ updatedAt: -1 })
-        .select(["-createdAt", "-updatedAt"]);
+    const dataLength = await Notices.countDocuments(searchObj);
 
-      return {
-        data,
-        perPage: limit,
-        total: allData.length,
-        noticesLeft:
-          allData.length - page * limit > 0 ? allData.length - page * limit : 0,
-        pageCount: Math.ceil(allData.length / +limit),
-        currentPage: page,
-        noticesOnPage: data.length,
-      };
-    }
-
-    const allData = await Notices.find({ categoryName: category });
-    const data = await Notices.find({ categoryName: category })
+    const data = await Notices.find(searchObj)
       .skip((page - 1) * limit)
       .limit(limit)
       .sort({ updatedAt: -1 })
       .select(["-createdAt", "-updatedAt"]);
+
     return {
       data,
       perPage: limit,
-      total: allData.length,
+      total: dataLength,
       noticesLeft:
-        allData.length - page * limit > 0 ? allData.length - page * limit : 0,
-      pageCount: Math.ceil(allData.length / +limit),
+        dataLength - page * limit > 0 ? dataLength - page * limit : 0,
+      pageCount: Math.ceil(dataLength / +limit),
       currentPage: page,
       noticesOnPage: data.length,
     };
   }
 
   const data = await Notices.findById(category);
+
   if (!data) throw new WrongParametersError("Not found");
+
   return {
     data,
   };

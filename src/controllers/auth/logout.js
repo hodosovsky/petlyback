@@ -1,9 +1,7 @@
 const { logout } = require("../../services/auth/logout");
 
 const logoutController = async (req, res) => {
-  const [, token] = req.headers.authorization.split(" ");
-
-  await logout(token);
+  await logout(req.user._id);
 
   res.status(204).json();
 };

@@ -18,6 +18,7 @@ const cloudUpload = async (file, folder, filename) => {
 
   try {
     const { url } = await cloudinary.uploader.upload(file, options);
+
     await fs.unlinkSync(file);
 
     return {
@@ -26,6 +27,7 @@ const cloudUpload = async (file, folder, filename) => {
     };
   } catch (error) {
     fs.unlinkSync(file);
+
     return {
       message: "Upload fail",
       error,

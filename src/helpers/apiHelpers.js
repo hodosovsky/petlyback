@@ -12,6 +12,7 @@ const errorHandler = (err, req, res, next) => {
   if (err instanceof CustomError) {
     return res.status(err.status).json({ message: err.message });
   }
+
   res.status(500).json({ message: err.message });
 };
 
@@ -24,6 +25,7 @@ const createToken = async (user) => {
     process.env.JWT_SECRET,
     { expiresIn: "23h" }
   );
+
   await User.findByIdAndUpdate(user?._id, { token });
 
   return token;

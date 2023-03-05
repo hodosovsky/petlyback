@@ -2,7 +2,7 @@
 const { ValidationError } = require("../../helpers/errors");
 const { Partners } = require("../../db/servicesModel");
 
-const servicesController = async (req, res, next) => {
+const servicesController = async (req, res) => {
   const result = await Partners.find({});
 
   if (!result) {

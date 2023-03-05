@@ -8,11 +8,10 @@ const noticesRouter = require("./routes/api/notices");
 const { errorHandler } = require("../src/helpers/apiHelpers");
 const servicesRoutes = require("./routes/api/servicesRoutes");
 const newsRoutes = require("./routes/api/newsRoutes");
-
-const app = express();
-
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("../swagger.json");
+
+const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
@@ -30,7 +29,6 @@ app.use("/api/users", authRouter);
 app.use("/api/news", newsRoutes);
 app.use("/api/services", servicesRoutes);
 app.use("/api/notices", noticesRouter);
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req, res) => {

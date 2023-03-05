@@ -1,6 +1,6 @@
 const { addPet } = require("../../services/pets/addPet");
 
-const addPetController = async (req, res, next) => {
+const addPetController = async (req, res) => {
   const { _id: ownerId } = req.user;
 
   const newPet = await addPet(req.body, req.file, ownerId);

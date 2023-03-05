@@ -1,10 +1,10 @@
 const { changeUser } = require("../../services/user/patchUser");
 
 const patchUserController = async (req, res) => {
-  const [, token] = req.headers.authorization.split(" ");
+  const { _id } = req.user;
 
   const { email, name, city, birthday, phone } = await changeUser(
-    token,
+    _id,
     req.body
   );
 

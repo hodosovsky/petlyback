@@ -22,6 +22,7 @@ const addPet = async (data, file, owner) => {
     { $push: { userPets: newPet._id.toString() } },
     { new: true }
   );
+  
   return newPet;
 };
 

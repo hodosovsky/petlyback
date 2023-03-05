@@ -15,6 +15,7 @@ module.exports = {
     if (validationResult.error) {
       next(new ValidationError(validationResult.error.message));
     }
+
     next();
   },
 
@@ -37,6 +38,7 @@ module.exports = {
     if (validationResult.error) {
       next(new ValidationError(JSON.stringify(validationResult.error.message)));
     }
+
     next();
   },
 
@@ -50,6 +52,21 @@ module.exports = {
     if (validationResult.error) {
       next(new ValidationError(JSON.stringify(validationResult.error.message)));
     }
+
+    next();
+  },
+
+  userEmailChangeValidation: (req, res, next) => {
+    const schema = Joi.object({
+      email: Joi.string().email().required(),
+      password: Joi.string().min(7).max(32).required(),
+    });
+    const validationResult = schema.validate(req.body);
+
+    if (validationResult.error) {
+      next(new ValidationError(JSON.stringify(validationResult.error.message)));
+    }
+
     next();
   },
 
@@ -70,6 +87,7 @@ module.exports = {
     if (validationResult.error) {
       next(new ValidationError(JSON.stringify(validationResult.error.message)));
     }
+
     next();
   },
 };

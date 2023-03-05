@@ -1,17 +1,10 @@
-const { Notices } = require('../../db/noticesModel')
-const { User } = require('../../db/userModel')
-const { WrongParametersError } = require('../../helpers/errors')
+const { Notices } = require("../../db/noticesModel");
+const { User } = require("../../db/userModel");
 
-const deleteNoticeService = async (owner, id) => {
-  const notice = await Notices.findById(id)
-  if (notice.owner.equals(owner)) {
-    const data = await Notices.findByIdAndDelete(id)
-    await User.updateMany({}, { $pull: { favorites: id } })
+const deleteNoticeService = async (owner, _id) => {
+  await Notices.findOneAndRemove({ _id, owner });
 
-    return data
-  } else {
-    throw new WrongParametersError('Not authorised to delete')
-  }
-}
+  await User.updateMany({}, { $pull: { favorites: _id } });
+};
 
-module.exports = { deleteNoticeService }
+module.exports = { deleteNoticeService };

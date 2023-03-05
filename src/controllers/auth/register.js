@@ -2,19 +2,29 @@ const { registration } = require("../../services/auth/register");
 
 const registrationController = async (req, res) => {
   const { token, loginedUser } = await registration(req.body);
-
+  const {
+    _id,
+    name,
+    email,
+    avatarURL,
+    city,
+    phone,
+    birthday,
+    favorites,
+    userPets,
+  } = loginedUser;
   res.status(201).json({
     token,
     user: {
-      _id: loginedUser._id,
-      name: loginedUser.name,
-      email: loginedUser.email,
-      avatarURL: loginedUser.avatarURL,
-      city: loginedUser.city,
-      phone: loginedUser.phone,
-      birthday: loginedUser.birthday,
-      favorites: loginedUser.favorites,
-      userPets: loginedUser.userPets,
+      _id,
+      name,
+      email,
+      avatarURL,
+      city,
+      phone,
+      birthday,
+      favorites,
+      userPets,
     },
   });
 };

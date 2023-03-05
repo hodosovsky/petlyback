@@ -6,8 +6,9 @@ const deleteNoticeController = async (req, res) => {
   const { _id: owner } = req.user;
   const { noticeId } = req.params;
 
-  const data = await deleteNoticeService(owner, noticeId);
-  res.json(data);
+  await deleteNoticeService(owner, noticeId);
+
+  res.json({ messge: "Notice delete" });
 };
 
 module.exports = { deleteNoticeController };

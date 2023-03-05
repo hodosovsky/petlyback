@@ -10,7 +10,6 @@ const validatinFileType = async (req, res, next) => {
       extension.toLowerCase() !== "jpg" &&
       extension.toLowerCase() !== "png"
     ) {
-      console.log(extension);
       await fs.unlinkSync(temporaryName);
       next(new ValidationError("file must be '.jpg' or '.png'"));
     }

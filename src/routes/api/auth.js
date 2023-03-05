@@ -13,6 +13,7 @@ const {
   userAuthValidation,
   userLoginValidation,
   changeUserValidation,
+  userEmailChangeValidation,
 } = require("../../middlewares/middlewares");
 const { authMiddleware, validatinFileType } = require("../../middlewares");
 const { uploadMiddleware } = require("../../helpers/multerConfig");
@@ -53,6 +54,11 @@ router.get(
   googleAuthController
 );
 router.get("/profile", authMiddleware, asyncWrapper(userProfileController));
-router.patch("/email", authMiddleware, asyncWrapper(changeEmailController));
+router.patch(
+  "/email",
+  authMiddleware,
+  userEmailChangeValidation,
+  asyncWrapper(changeEmailController)
+);
 
 module.exports = router;

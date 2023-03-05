@@ -4,43 +4,24 @@ const getAllNewsService = async (search, page, limit) => {
   limit = +limit > 8 ? 8 : +limit;
   page = +page;
 
-  if (search) {
-    const allData = await News.find({
-      title: { $regex: search, $options: "i" },
-    });
+  const searchObj = {};
 
-    const data = await News.find({
-      title: { $regex: search, $options: "i" },
-    })
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .sort({ date: -1 })
-      .select(["-createdAt", "-updatedAt"]);
+  if (search) searchObj.title = { $regex: search, $options: "i" };
 
-    return {
-      data,
-      perPage: limit,
-      total: allData.length,
-      newsLeft:
-        allData.length - page * limit > 0 ? allData.length - page * limit : 0,
-      pageCount: Math.ceil(allData.length / +limit),
-      currentPage: page,
-      newsOnPage: data.length,
-    };
-  }
-  const allData = await News.find({});
-  const data = await News.find({})
+  const dataLength = await News.countDocuments(searchObj);
+
+  const data = await News.find(searchObj)
     .skip((page - 1) * limit)
     .limit(limit)
     .sort({ date: -1 })
     .select(["-createdAt", "-updatedAt"]);
+
   return {
     data,
     perPage: limit,
-    total: allData.length,
-    newsLeft:
-      allData.length - page * limit > 0 ? allData.length - page * limit : 0,
-    pageCount: Math.ceil(allData.length / +limit),
+    total: dataLength,
+    newsLeft: dataLength - page * limit > 0 ? dataLength - page * limit : 0,
+    pageCount: Math.ceil(dataLength / +limit),
     currentPage: page,
     newsOnPage: data.length,
   };
