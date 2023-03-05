@@ -7,6 +7,7 @@ const changePetAvatar = async (file, id, owner) => {
   if (file) {
     const { path, fieldname } = file;
     const { url } = await petPhotoUpload(path, fieldname, owner);
+
     newUrl = url;
   }
 

@@ -5,8 +5,8 @@ const { addPetController } = require("../../controllers/pets/addPet");
 const { deletePetController } = require("../../controllers/pets/deletePet");
 const { patchPetController } = require("../../controllers/pets/changePet");
 const {
-  patchNoticeAvatarController,
-} = require("../../controllers/notices/patchNoticeAvatar");
+  changeAvatarController,
+} = require("../../controllers/pets/changePetAvatar");
 const { uploadMiddleware } = require("../../helpers/multerConfig");
 const { validatinFileType } = require("../../middlewares/validatinFileType");
 const { petValidation } = require("../../middlewares/middlewares");
@@ -32,7 +32,7 @@ router.patch(
   authMiddleware,
   uploadMiddleware.single("avatar"),
   validatinFileType,
-  asyncWrapper(patchNoticeAvatarController)
+  asyncWrapper(changeAvatarController)
 );
 
 module.exports = router;
