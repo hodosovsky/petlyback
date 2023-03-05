@@ -5,25 +5,9 @@ const {
 const getAllCategoriesController = async (req, res) => {
   let { search, page = 1, limit = 8 } = req.query;
 
-  const {
-    data,
-    perPage,
-    total,
-    noticesLeft,
-    pageCount,
-    currentPage,
-    noticesOnPage,
-  } = await getAllCategoriesService(search, page, limit);
+  const data = await getAllCategoriesService(search, page, limit);
 
-  res.json({
-    data,
-    perPage,
-    total,
-    noticesLeft,
-    pageCount,
-    currentPage,
-    noticesOnPage,
-  });
+  res.json(data);
 };
 
 module.exports = { getAllCategoriesController };

@@ -1,5 +1,5 @@
 const express = require("express");
-const { addNoticeController } = require("../../controllers/notices");
+const { addNoticeController } = require("../../controllers/notices/addNoticeByCategory");
 const {
   getNoticesByCategoryController,
 } = require("../../controllers/notices/getNoticesByCategory");

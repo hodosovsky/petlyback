@@ -1,10 +1,9 @@
-const {authMiddleware} = require("./authMiddleware");
-// const {googleAuth} = require('./googleAuth');
-const {validationBody} = require("./validationBody")
-const {validatinFileType} = require("./validatinFileType");
+const { authMiddleware } = require("./authMiddleware");
+const { validationBody } = require("./validationBody");
+const { validatinFileType } = require("./validatinFileType");
 
 module.exports = {
-    authMiddleware,
-    validationBody,
-    validatinFileType
-}
+  authMiddleware,
+  validationBody,
+  validatinFileType,
+};
