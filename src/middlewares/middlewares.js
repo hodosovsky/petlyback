@@ -1,6 +1,13 @@
 const Joi = require("joi");
 const { ValidationError } = require("../helpers/errors");
 
+const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const regexName = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+const regexDate =
+  /^((0?[1-9]|[12][0-9]|3[01])[.](0?[1-9]|1[012])[.](19|20)?[0-9]{2})*$/;
+const locationRegExp =
+  /^[A-ZА-ЯЁАЩЬЮЯҐЄІЇ][a-zA-Zа-яёА-ЯЁА-ЩЬЮЯҐЄІЇа-щьюяґєії\-]+,\s?[A-ZА-ЯЁАЩЬЮЯҐЄІЇ][a-zA-Zа-яёА-ЯЁА-ЩЬЮЯҐЄІЇа-щьюяґєії]+$/;
+
 module.exports = {
   petValidation: (req, res, next) => {
     const schema = Joi.object({
@@ -74,13 +81,14 @@ module.exports = {
     const schema = Joi.object({
       email: Joi.string()
         .email({ tlds: { allow: false } })
+        .pattern(new RegExp(regexEmail))
         .min(10)
         .max(63),
-      password: Joi.string().min(7).max(32),
-      name: Joi.string().min(1),
+      password: Joi.string().alphanum().min(7).max(32),
+      name: Joi.string().min(1).max(16).pattern(new RegExp(regexName)),
       phone: Joi.string(),
-      city: Joi.string(),
-      birthday: Joi.string(),
+      city: Joi.string().pattern(new RegExp(locationRegExp)),
+      birthday: Joi.string().pattern(new RegExp(regexDate)),
     });
     const validationResult = schema.validate(req.body);
 
