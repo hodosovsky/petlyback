@@ -41,7 +41,7 @@ const googleCallback = async (
       password,
       name: displayName,
       city: "City",
-      phone: "null" + "" + Math.floor(Math.random() * 10000000),
+      phone: "null" + " " + Math.floor(Math.random() * 10000000),
       avatarURL,
     });
     const token = await createToken(newUser);
