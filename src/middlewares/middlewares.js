@@ -7,8 +7,6 @@ const regexEmail =
 const regexName = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
 const regexDate =
   /^((0?[1-9]|[12][0-9]|3[01])[.](0?[1-9]|1[012])[.](19|20)?[0-9]{2})*$/;
-const locationRegExp =
-  /^[A-ZА-ЯЁАЩЬЮЯҐЄІЇ][a-zA-Zа-яёА-ЯЁА-ЩЬЮЯҐЄІЇа-щьюяґєії\-]+,\s?[A-ZА-ЯЁАЩЬЮЯҐЄІЇ][a-zA-Zа-яёА-ЯЁА-ЩЬЮЯҐЄІЇа-щьюяґєії]+$/;
 
 module.exports = {
   petValidation: (req, res, next) => {
@@ -89,7 +87,7 @@ module.exports = {
       password: Joi.string().alphanum().min(7).max(32),
       name: Joi.string().min(1).max(16).pattern(new RegExp(regexName)),
       phone: Joi.string(),
-      city: Joi.string().pattern(new RegExp(locationRegExp)),
+      city: Joi.string(),
       birthday: Joi.string().pattern(new RegExp(regexDate)),
     });
     const validationResult = schema.validate(req.body);
