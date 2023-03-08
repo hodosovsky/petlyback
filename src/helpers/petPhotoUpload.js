@@ -11,9 +11,10 @@ const petPhotoUpload = async (file, folder, filename) => {
   const cloudFilePath = folder + "/" + filename;
 
   const options = {
-    public_id: cloudFilePath,
+    public_id: cloudFilePath + Math.floor(Math.random() * 10000),
     overwrite: true,
   };
+  console.log("public_id:", options.public_id);
 
   try {
     const { url } = await cloudinary.uploader.upload(file, options);
